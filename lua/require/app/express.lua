@@ -20,6 +20,9 @@ function search(expressNo,c,fromqq)
     end
     local result_msg = comCode.."\r\n"
     html = apiHttpGet("https://www.kuaidi100.com/query", "type="..comCode.."&postid="..expressNo)
+    if html == "" then 
+        return "网络繁忙,请稍后再试"
+    end
     local jo,r = jsonDecode(html)
     if not r then return cqCode_At(fromqq).."数据加载失败" end
     for i in pairs(jo.data) do
