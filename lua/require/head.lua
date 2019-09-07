@@ -9,7 +9,7 @@ if admin == -1 then
     admin = tonumber(admin) or -1
 end
 if admin == -1 then
-    cqAddLoger(20, "lua插件警告", "请去" .. apiGetPath() .. "data/app/com.papapoi.ReceiverMeow/xml/settings.xml文件，设置管理员qq！")
+    cqAddLoger(20, "lua插件警告", "请去" .. apiGetPath() .. "data/app/com.robot.soware/xml/settings.xml文件，设置管理员qq！")
 end
 
 --加强随机数随机性
@@ -34,7 +34,7 @@ rootPath = rootPath:gsub("%x%x", function(c)
     return string.char(tonumber(c, 16))
 end)
 package.path = package.path ..
-";" .. rootPath .. "data/app/com.papapoi.ReceiverMeow/lua/require/?.lua"
+";" .. rootPath .. "data/app/com.robot.soware/lua/require/?.lua"
 
 --加载字符串工具包
 require("strings")
