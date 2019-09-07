@@ -302,7 +302,7 @@ end
         return msg:find("test") == 1
     end,
     run = function()
-        
+        cqSetGroupBanSpeak(418106020,919825501,-1)
 
     end,
 },

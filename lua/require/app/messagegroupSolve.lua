@@ -25,7 +25,7 @@ local adminapps = {
         end,
         run = function()--匹配后进行运行的函数
             if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("add ","")
+                msg = msg:gsub("add ", "")
                 local keyWord, answer = msg:match("(.+):(.+)")
                 keyWord = kickSpace(keyWord)
                 answer = kickSpace(answer)
@@ -51,9 +51,9 @@ local adminapps = {
         end,
         run = function()
             if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                keyWord = msg:gsub("delall ","")
+                keyWord = msg:gsub("delall ", "")
                 keyWord = kickSpace(keyWord)
-                apiXmlDelete(tostring(group),"common", keyWord)
+                apiXmlDelete(tostring(group), "common", keyWord)
                 sendMessage("删除完成！\n" ..
                 "词条：" .. keyWord)
             else
@@ -71,7 +71,7 @@ local adminapps = {
         end,
         run = function()
             if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("del ","")
+                msg = msg:gsub("del ", "")
                 local keyWord, answer = msg:match("(.+):(.+)")
                 keyWord = kickSpace(keyWord)
                 answer = kickSpace(answer)
@@ -96,10 +96,10 @@ local adminapps = {
             return msg:find("list ") == 1
         end,
         run = function()
-            keyWord = msg:gsub("list ","")
+            keyWord = msg:gsub("list ", "")
             keyWord = kickSpace(keyWord)
-            sendMessage("本群词库内容：\n" .. apiXmlListGet(tostring(group), "common", keyWord).."\n\n"..
-                "全局词库内容：\n" .. apiXmlListGet("", "common", keyWord))
+            sendMessage("本群词库内容：\n" .. apiXmlListGet(tostring(group), "common", keyWord) .. "\n\n" ..
+            "全局词库内容：\n" .. apiXmlListGet("", "common", keyWord))
             return true
         end,
         explain = function()
@@ -212,7 +212,7 @@ local adminapps = {
         run = function()
             if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
                 local dqq = msg:match("(%d+)")
-                local t = cqGetMemberInfo(tonumber(group),tonumber(dqq),true)
+                local t = cqGetMemberInfo(tonumber(group), tonumber(dqq), true)
                 local info = require("app.groupmemberinfo")
                 sendMessage(info(t))
             else
@@ -235,7 +235,7 @@ local adminapps = {
                 local num = tlist[0]
                 local list = tlist[1]
 
-                for i=0,num do
+                for i = 0, num do
                     local info = require("app.groupmemberinfo")
                     sendMessage(info(list[i]))
                 end
@@ -249,14 +249,17 @@ local adminapps = {
         end
     },
     {--禁言
-    check = function()
-        return msg:find("禁言 ") == 1 and
-        qq == admin
-    end,
-    run = function()
-        local v = tonumber(msg:match("(%d+):"))
-        local t = tonumber(msg:match(":(%d+)"))
-        cqSetGroupBanSpeak(group, v, t * 60)
+        check = function()
+            return msg:find("禁言 ") == 1 and
+            qq == admin
+        end,
+        run = function()
+            local v = tonumber(msg:match("(%d+):"))
+            local t = tonumber(msg:match(":(%d+)"))
+            if t then
+                cqSetGroupBanSpeak(group, v, t * 60)
+                return true
+            end
         end,
         explain = function()
             return "禁言 (超管功能)"
@@ -269,7 +272,7 @@ local adminapps = {
         end,
         run = function()
             local q = tonumber(msg:match("(%d+)"))
-            cqSetGroupBanSpeak(group,q,-1)
+            cqSetGroupBanSpeak(group, q, -1)
             return true
         end,
         explain = function()
@@ -282,7 +285,7 @@ local adminapps = {
             qq == admin
         end,
         run = function()
-            cqSetGroupWholeBanSpeak(group,true)
+            cqSetGroupWholeBanSpeak(group, true)
             return true
         end,
         explain = function()
@@ -295,18 +298,115 @@ local adminapps = {
             qq == admin
         end,
         run = function()
-            cqSetGroupWholeBanSpeak(group,false)
+            cqSetGroupWholeBanSpeak(group, false)
             return true
         end,
         explain = function()
             return "解除全员禁言 (超管功能)"
         end
     },
+    {--踢人
+        check = function()
+            return msg:find("踢人") == 1 and
+            qq == admin
+        end,
+        run = function()
+            local q = tonumber(msg:match("(%d+)"))
+            cqSetGroupMemberRemove(group, q, false)
+            return true
+        end,
+        explain = function()
+            return "踢人 (超管功能)"
+        end
+    },
+    {--分享链接
+        check = function()
+            return msg:find("分享链接") == 1
+        end,
+        run = function()
+            local q = tonumber(msg:match("(%d+)"))
+            local link = cqCqCode_ShareLink("https://baike.baidu.com/item/%E6%B2%99%E9%9B%95/22847664", "标题标题标题标题标题标题标题", "内容内容内容内容内容内容内容内容内容", "http://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=%E5%9B%BE%E7%89%87&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=3775805866,1434593229&os=1732530214,201291421&simid=3377485113,378680154&pn=1&rn=1&di=131010&ln=774&fr=&fmq=1567847340283_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&objurl=http%3A%2F%2Fphotocdn.sohu.com%2F20120708%2FImg347586981.jpg&rpstart=0&rpnum=0&adpicid=0&force=undefined")
+            sendMessage(link)
+            return true
+        end,
+        explain = function()
+            return "分享链接 "
+        end
+    },
+    {--分享群名片
+        check = function()
+            return msg:find("分享群名片") == 1
+        end,
+        run = function()
+            local g = tonumber(msg:match("(%d+)"))
+            if g == nil then q = 418106020 end
+            local card = cqCqCode_ShareCard("group", g)
+            sendMessage(card)
+            return true
+        end,
+        explain = function()
+            return "分享群名片 "
+        end
+    },
+    {--分享QQ名片
+        check = function()
+            return msg:find("分享QQ名片") == 1
+        end,
+        run = function()
+            local q = tonumber(msg:match("(%d+)"))
+            if q == nil then q = 919825501 end
+            local card = cqCqCode_ShareCard("qq", q)
+            sendMessage(card)
+            return true
+        end,
+        explain = function()
+            return "分享QQ名片 "
+        end
+    },
+    {--分享位置
+        check = function()
+            return msg:find("分享位置") == 1
+        end,
+        run = function()
+            local gps = cqCqCode_ShareGPS("我在你家里的卧室的床上", "快来给我盖被子",20.0,30.0,15)
+            sendMessage(gps)
+            return true
+        end,
+        explain = function()
+            return "分享位置 "
+        end
+    },
+    {--发送图片
+        check = function()
+            return msg:find("发送图片") == 1
+        end,
+        run = function()
+            local gps = cqCqCode_Image("1.jpg")
+            sendMessage(gps)
+            return true
+        end,
+        explain = function()
+            return "发送图片 "
+        end
+    },
+    {--发送语音
+        check = function()
+            return msg:find("发送语音") == 1
+        end,
+        run = function()
+            local record = cqCqCode_Record("1.mp3")
+            sendMessage(record)
+            return true
+        end,
+        explain = function()
+            return "发送语音 "
+        end
+    },
 }
 
 --所有需要运行的app
 local apps = {
-    
+
     {--今日运势
         check = function()
             return msg == "今日运势" or msg == "明日运势" or msg == "昨日运势"
@@ -391,7 +491,7 @@ local apps = {
         end,
         run = function()
             local sign = require("app.sign")
-            sendMessage(cqCode_At(qq) .. sign(qq,group))
+            sendMessage(cqCode_At(qq) .. sign(qq, group))
             return true
         end,
         explain = function()
@@ -488,7 +588,7 @@ local apps = {
         end,
         run = function()
             local replyGroup = group and apiXmlReplayGet(tostring(group), "common", msg) or ""
-            local replyCommon = apiXmlReplayGet("","common", msg)
+            local replyCommon = apiXmlReplayGet("", "common", msg)
             if replyGroup == "" and replyCommon ~= "" then
                 sendMessage(replyCommon)
             elseif replyGroup ~= "" and replyCommon == "" then
@@ -515,7 +615,6 @@ return function(inmsg, inqq, ingroup, inid)
     -- elseif inmsg:find("%(" .. tostring(cqGetLoginQQ()) .. "%) 被管理员禁言") then
     --     apiXmlSet(tostring(ingroup),"ban", tostring(group), tostring(os.time()))
     -- end
-
     --帮助列表每页最多显示数量
     -- local maxEachPage = 8
     -- --匹配是否需要获取帮助翻页
@@ -554,8 +653,8 @@ return function(inmsg, inqq, ingroup, inid)
         table.concat(allApp, "\n") .. "\n")
         return true
     end
-     --匹配是否需要获取管理
-     if msg:lower():find("manage") == 1 then
+    --匹配是否需要获取管理
+    if msg:lower():find("manage") == 1 then
         if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
             local allApp = {}
             for i = 1, #adminapps do

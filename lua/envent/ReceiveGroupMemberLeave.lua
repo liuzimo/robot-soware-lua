@@ -13,7 +13,7 @@ handled = true
 详细请参考readme
 ]]
 
---cqSendGroupMessage(fromgroup,tostring(fromqq).."永远地离开了这个世界。。")
+cqSendGroupMessage(fromgroup,tostring(fromqq).."永远地离开了这个世界。。")
 --[[
 if fromgroup == 241464054 then
     local player = apiXmlGet("bindQq",tostring(fromqq))
