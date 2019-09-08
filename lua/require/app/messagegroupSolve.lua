@@ -339,7 +339,7 @@ local adminapps = {
         end,
         run = function()
             local g = tonumber(msg:match("(%d+)"))
-            if g == nil then q = 418106020 end
+            if g == nil then g = 418106020 end
             local card = cqCqCode_ShareCard("group", g)
             sendMessage(card)
             return true
