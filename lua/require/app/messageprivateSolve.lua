@@ -297,13 +297,105 @@ explain = function()
     return "群发 内容(所有者功能)"
 end
 },
-{--测试
+{--查快递
+    check = function()
+        return msg:find("查快递") == 1
+    end,
+    run = function()
+        local logisticode = msg:match("(%d+)")
+
+        --判断是否选择快递公司
+        local shipper = apiXmlGet("logisticode",logisticode,"t")
+        if shipper ~= "" then
+            local kuaidi = require("app.kuaidi")
+            local r = kuaidi(shipper,logisticode)
+            apiXmlSet("searchtemp","forward",tostring(qq),r)
+            sendMessage(r)
+            return true 
+        end
+        --查单号
+        local jsondata = apiOrderSearch(logisticode)
+        --判断接口是否正常
+        if jsondata =="" then
+            sendMessage("网络错误，请稍后再试")
+            return true
+        end
+        --解码 判断单号是否正确
+        local d =jsonDecode(jsondata)
+        if not d["Success"] then
+            sendMessage("查询失败，请检查单号是否正确")
+            return true
+        end 
+        if d["Shippers"]==nil or #d["Shippers"]==0 then
+            sendMessage("单号不存在,请输入正确的单号")
+            return true
+        end
+
+        --保存 单号查询记录
+        apiXmlSet("searchtemp","logistic",tostring(qq),logisticode)
+        apiXmlInsert("","logistic",tostring(qq),logisticode)
+
+        --
+
+        if #d["Shippers"]==1 then
+            
+            if d["Shippers"][1]["ShipperName"]=="京东快递" then
+                sendMessage("请重新输入单号不支持京东快递")
+                return true 
+            end
+            apiXmlSet("","shippercode",d["Shippers"][1]["ShipperName"],d["Shippers"][1]["ShipperCode"])
+            local kuaidi = require("app.kuaidi")
+            local r = kuaidi(d["Shippers"][1]["ShipperName"],logisticode)
+            apiXmlSet("searchtemp","forward",tostring(qq),r)
+            sendMessage(r)
+            return true 
+        end
+
+        local m = "当前单号查询出"..#d["Shippers"].."家快递公司\n"
+        for i=1,#d["Shippers"] do
+            
+            apiXmlSet("logisticode",logisticode,"f",d["Shippers"][i]["ShipperName"])
+            apiXmlSet("searchtemp",logisticode,d["Shippers"][i]["ShipperName"],d["Shippers"][i]["ShipperCode"])
+            apiXmlSet("","shippercode",d["Shippers"][i]["ShipperName"],d["Shippers"][i]["ShipperCode"])
+            m = m .. d["Shippers"][i]["ShipperName"].."\n"
+        end
+        sendMessage(m.."请您手动选择哪家快递，列如：快递选择中通速递(输入完整名称)")
+        return true
+    end,
+},
+{--快递选择
+    check = function()
+        return msg:find("快递选择") == 1
+    end,
+    run = function()
+        local shipper = msg:gsub("快递选择","")
+        shipper = kickSpace(shipper)
+        if shipper=="京东快递" then
+            sendMessage("请重新选择不支持京东")
+            return true 
+        end
+        local logisticode = apiXmlGet("searchtemp","logistic",tostring(qq))
+        local shippercode = apiXmlGet("searchtemp",logisticode,shipper)
+        if shippercode ~= "" then
+            apiXmlSet("logisticode",logisticode,"t",shipper)
+            local kuaidi = require("app.kuaidi")
+            local r = kuaidi(shipper,logisticode)
+            apiXmlSet("searchtemp","forward",tostring(qq),r)
+            sendMessage(r)
+            return true
+        end
+        sendMessage("请输入快递选择加正确的快递名称")
+        return true 
+    end,
+},
+{--test
     check = function()
         return msg:find("test") == 1
     end,
     run = function()
-        cqSetGroupBanSpeak(418106020,919825501,-1)
-
+        local data = apiNowSearch("","")
+        sendMessage(m)
+        return true
     end,
 },
 }
