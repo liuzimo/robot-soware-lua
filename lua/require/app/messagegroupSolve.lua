@@ -368,7 +368,7 @@ local adminapps = {
             return msg:find("分享位置") == 1
         end,
         run = function()
-            local gps = cqCqCode_ShareGPS("我在你家里的卧室的床上", "快来给我盖被子",20.0,30.0,15)
+            local gps = cqCqCode_ShareGPS("我在你家里的卧室的床上", "快来给我盖被子", 20, 30, 15)
             sendMessage(gps)
             return true
         end,
@@ -425,13 +425,26 @@ local apps = {
             return msg:find("查快递") == 1
         end,
         run = function()
-            local express = require("app.express")
-            sendMessage(express(qq, msg))
+            local express = require("app.express.express")
+            local m = express(msg,qq)
+            sendMessage(m)
             return true
         end,
         explain = function()
-            return "查快递 加 单号"
+            return "查快递"
         end
+    },
+    {--快递选择
+        check = function()
+            return msg:find("快递选择") == 1
+        end,
+        run = function()
+   
+            local expresschoose = require("app.express.expresschoose")
+            local m = expresschoose(msg,qq)
+            sendMessage(m)
+            return true
+        end,
     },
     {--空气质量
         check = function()
