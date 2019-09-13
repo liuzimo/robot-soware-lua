@@ -218,7 +218,6 @@ local adminapps = {
             local grouplist = cqGetGroupList()
             local n = grouplist[0]
             local list = grouplist[1]
-            sendMessage(tostring(list[1]["Id"]))
             for i = 0, n do
                 apiXmlSet("", "grouplist", tostring(list[i]["Id"]), "")
             end
