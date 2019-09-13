@@ -218,7 +218,7 @@ local adminapps = {
             local grouplist = cqGetGroupList()
             local n = grouplist[0]
             local list = grouplist[1]
-
+            sendMessage(tostring(list[1]["Id"]))
             for i = 0, n do
                 apiXmlSet("", "grouplist", tostring(list[i]["Id"]), "")
             end
@@ -297,13 +297,25 @@ local adminapps = {
             return "群发 内容(所有者功能)"
         end
     },
+    {--退群
+        check = function()
+            return msg:find("退群") == 1
+        end,
+        run = function()
+            local key = msg:match("(%d+)")
+            cqSetGroupExit(tonumber(key))
+            return true
+        end,
+        explain = function()
+            return "退群"
+        end
+    },
     {--test
         check = function()
             return msg:find("test") == 1
         end,
         run = function()
-            local data = apiNowSearch("", "")
-            sendMessage(m)
+            apiListenStart()
             return true
         end,
     },
@@ -344,6 +356,17 @@ local apps = {
         run = function()
             local expresschoose = require("app.express.expresschoose")
             local m = expresschoose(msg, qq)
+            sendMessage(m)
+            return true
+        end,
+    },
+    {--快递推送订阅
+        check = function()
+            return msg:find("订阅") == 1
+        end,
+        run = function()
+            local expressub = require("app.express.expressub")
+            local m = expressub(msg, "",qq)
             sendMessage(m)
             return true
         end,

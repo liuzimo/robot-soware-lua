@@ -446,6 +446,17 @@ local apps = {
             return true
         end,
     },
+    {--快递推送订阅
+    check = function()
+        return msg:find("订阅") == 1
+    end,
+    run = function()
+        local expressub = require("app.express.expressub")
+        local m = expressub(msg, group,qq)
+        sendMessage(m)
+        return true
+    end,
+    },
     {--空气质量
         check = function()
             return msg:find("空气质量") == 1
