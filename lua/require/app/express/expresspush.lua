@@ -1,14 +1,13 @@
---主动查快递
+--快递推送
 return function(msg)
     local jdata = jsonDecode(msg)
     local count = jdata["Count"]
     local data = jdata["Data"]
     
-
     for i = 1, count do
         local getshipper = require("app.express.shipper")
         local shipper = getshipper(data[i]["ShipperCode"])
-        local logisticode = getshipper(data[i]["logisticode"])
+        local logisticode = data[i]["LogisticCode"]
         local ms =  shipper.."\n"
         for t=1,#data[i]["Traces"] do
             
@@ -16,7 +15,7 @@ return function(msg)
         end
         
         local group = apiXmlGet("", "expressubgroup", logisticode)
-        local qq = apiXmlGet(tostring(group), "expressub", logisticode)
+        local qq = apiXmlGet(group, "expressub", logisticode)
         if group =="" then
             cqSendPrivateMessage(tonumber(qq), ms)
             return true

@@ -1,6 +1,6 @@
 --主动查快递
 return function(shippercode)
-    local shippercode = ""
+    local shipper = ""
     if shippercode:find("SF") then
         shipper = "顺丰"
     elseif shippercode:find("HTKY") then
