@@ -18,17 +18,21 @@ handled = true
 
 -- local private1 = apiXmlGet(tostring(fromgroup),"newreplay","第一次私聊")~="" or "欢迎加入"
 if operateqq+0~=fromqq then
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."邀请:" ..fromqq.."进群")
-    local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))~="" or "0"
-    cqSendGroupMessage(fromgroup,type(count))
+    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."邀请" ..fromqq.."进群")
+    local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))
+    if count == "" then
+        count=0
+    end
     apiXmlSet(tostring(fromgroup),"invite",tostring(operateqq),tostring(tonumber(count)+1))
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你已邀请"..tostring(tonumber(count)+1).."人进群".."积分增加100")
-    local integral = apiXmlGet(tostring(group), "integral",tostring(qq))
+    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群，".."此次赠送积分100 \n可通过'积分查询'查看积分，后续更新积分游戏功能")
+    local integral = apiXmlGet(tostring(fromgroup), "integral",tostring(operateqq))
     if integral == "" then
         integral = 500
     end
-    apiXmlSet(tostring(group),"integral",tostring(qq),tostring(tonumber(integral)+100))
+    apiXmlSet(tostring(fromgroup),"integral",tostring(operateqq),tostring(tonumber(integral)+100))
+    return true
 end
+
 
 -- cqSendGroupMessage(fromgroup,cqCode_At(fromqq)..h1)
 -- cqSendPrivateMessage(fromqq,private1..fromgroup)

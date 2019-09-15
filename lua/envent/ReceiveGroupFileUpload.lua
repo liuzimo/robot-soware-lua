@@ -16,4 +16,4 @@ handled = true
 ]]
 
 
-cqSendGroupMessage(fromgroup,"文件名:"..fileName.."大小:"..size)
+cqSendGroupMessage(fromgroup,cqCode_At(fromqq).."上传了文件   --文件名:"..fileName.."    --大小:"..size.."B")

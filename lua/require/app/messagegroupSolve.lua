@@ -525,6 +525,23 @@ local apps = {
             return "签到"
         end
     },
+    {--积分查询
+        check = function()
+            return msg == "积分查询"
+        end,
+        run = function()
+            local integral = apiXmlGet(tostring(group), "integral",tostring(qq))
+            if integral == "" then
+                integral = "500"
+                apiXmlSet(tostring(group),"integral",tostring(qq),tostring(integral))
+            end
+            sendMessage(cqCode_At(qq) .."你当前的积分为"..integral)
+            return true
+        end,
+        explain = function()
+            return "积分查询"
+        end
+    },
     {--b站av号解析
         check = function()
             return msg:find("av%d+")
