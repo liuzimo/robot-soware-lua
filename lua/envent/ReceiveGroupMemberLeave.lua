@@ -4,7 +4,7 @@
 提前收到的声明数据为：
 fromqq      被操作qq号码    number类型
 fromgroup   消息的群号码    number类型
-doqq        操作者qq号码    number类型  如果为自己退群，此值为nil
+operateqq   操作者qq号码    number类型  如果为自己退群，此值为nil
 
 注意：拦截消息后请将变量handled置true，表示消息已被拦截，如：
 handled = true
@@ -13,7 +13,11 @@ handled = true
 详细请参考readme
 ]]
 
-cqSendGroupMessage(fromgroup,tostring(fromqq).."永远地离开了这个世界。。")
+if operateqq+0~=fromqq then
+    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将:" ..fromqq.."踢出本群")
+    return true
+end
+cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群")
 --[[
 if fromgroup == 241464054 then
     local player = apiXmlGet("bindQq",tostring(fromqq))

@@ -456,6 +456,9 @@ local apps = {
         sendMessage(m)
         return true
     end,
+    explain = function()
+        return "订阅快递"
+    end
     },
     {--空气质量
         check = function()
@@ -511,7 +514,7 @@ local apps = {
     },
     {--签到
         check = function()
-            return msg == "签到" or msg:find("%[CQ:sign,") == 1
+            return msg == "签到" or msg:find("%[CQ:rich,") == 1
         end,
         run = function()
             local sign = require("app.sign")

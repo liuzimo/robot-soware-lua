@@ -41,27 +41,7 @@ local adminapps = {
             return true
         end,
         explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
-            return "add    关键词:回答 --全局词库 (超管功能)"
-        end
-    },
-    {--!delall
-        check = function()
-            return msg:find("delall ") == 1
-        end,
-        run = function()
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                keyWord = msg:gsub("delall ", "")
-                keyWord = kickSpace(keyWord)
-                apiXmlDelete("", "common", keyWord)
-                sendMessage("删除完成！\n" ..
-                "词条：" .. keyWord)
-            else
-                sendMessage("权限不足！")
-            end
-            return true
-        end,
-        explain = function()
-            return "delall 关键词 (超管功能)"
+            return "add 关键词:回答\n--添加某关键字对应的回复"
         end
     },
     {--!del
@@ -87,7 +67,27 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "del     关键词:回答(超管功能)"
+            return "del 关键词:回答\n--删除该关键字对应的一条回复"
+        end
+    },
+    {--!delall
+        check = function()
+            return msg:find("delall ") == 1
+        end,
+        run = function()
+            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
+                keyWord = msg:gsub("delall ", "")
+                keyWord = kickSpace(keyWord)
+                apiXmlDelete("", "common", keyWord)
+                sendMessage("删除完成！\n" ..
+                "词条：" .. keyWord)
+            else
+                sendMessage("权限不足！")
+            end
+            return true
+        end,
+        explain = function()
+            return "delall 关键词\n--删除该关键字对应的所有回复"
         end
     },
     {--!list
@@ -101,7 +101,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "list     关键词(超管功能)"
+            return "list 关键词\n--显示该关键字对应的回复"
         end
     },
     {--!addgroupadmin
@@ -117,7 +117,7 @@ local adminapps = {
                 if ingroup:len() == 0 and inqq:len() == 0 and tonumber(ingroup) == nil and tonumber(inqq) == nil then
                     sendMessage("格式 addgroupadmin 群号:qq") return true
                 end
-                local dlist = apiDirectoryList("")
+                local dlist = apiXmlIdListGet("", "grouplist")
                 local num = dlist[0]
                 local list = dlist[1]
                 for i = 0, num do
@@ -138,7 +138,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "addgroupadmin 群号:添加管理qq(超管功能)"
+            return "addgroupadmin 群号:qq\n--添加某群的群管理"
         end
     },
     {--!delgroupadmin
@@ -154,7 +154,7 @@ local adminapps = {
                 if ingroup:len() == 0 and inqq:len() == 0 and tonumber(ingroup) == nil and tonumber(inqq) == nil then
                     sendMessage("格式 delgroupadmin 群号:qq") return true
                 end
-                local dlist = apiDirectoryList("")
+                local dlist = apiXmlIdListGet("", "grouplist")
                 local num = dlist[0]
                 local list = dlist[1]
                 for i = 0, num do
@@ -174,7 +174,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "delgroupadmin  群号:删除管理qq (超管功能)"
+            return "delgroupadmin 群号:qq\n--删除某群对应的群管理"
         end
     },
     {--!addadmin
@@ -189,7 +189,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "addadmin qq (所有者功能)"
+            return "addadmin qq\n--添加超管"
         end
     },
     {--!deladmin
@@ -204,7 +204,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "deladmin qq (所有者功能)"
+            return "deladmin qq\n--删除超管"
         end
     },
     {--初始化群列表
@@ -218,14 +218,20 @@ local adminapps = {
             local grouplist = cqGetGroupList()
             local n = grouplist[0]
             local list = grouplist[1]
+            local rootPath = apiGetAsciiHex(apiGetPath())
+            rootPath = rootPath:gsub("[%s%p]", ""):upper()
+            rootPath = rootPath:gsub("%x%x", function(c)
+                return string.char(tonumber(c, 16))
+            end)
+            os.remove(rootPath .. "data/app/com.robot.soware/xml/grouplist.xml")
             for i = 0, n do
                 apiXmlSet("", "grouplist", tostring(list[i]["Id"]), "")
             end
-            sendMessage("初始化群列表完成,数量:" .. tostring(n + 1))
+            sendMessage("初始化群列表完成,数量:" .. tostring(n+1))
             return true
         end,
         explain = function()
-            return "初始化群列表 (所有者功能)"
+            return "初始化群列表\n--获取所有群的群号码,保存文本"
         end
     },
     {--获取群列表
@@ -239,13 +245,17 @@ local adminapps = {
             local list = dlist[1]
             local n = ""
             for i = 0, num do
+                if i==num then
+                    n = n .. list[i]
+                    break
+                end
                 n = n .. list[i] .. "\n"
             end
             sendMessage(n)
             return true
         end,
         explain = function()
-            return "群列表  --打印群列表 (所有者功能)"
+            return "群列表\n--需先初始化群列表,输出所有群的群号码"
         end
     },
     {--初始化群成员
@@ -254,7 +264,6 @@ local adminapps = {
             qq == admin
         end,
         run = function()
-
             local key = msg:match("(%d+)")
             local t = cqGetMemberList(tonumber(key))
             local nums = t[0]
@@ -263,14 +272,11 @@ local adminapps = {
                 local ls = lists[s]
                 apiXmlSet(key, "memberlist", tostring(ls["QQ"]), "")
             end
-
             sendMessage("群成员初始化完成,人数:" .. tostring(nums + 1))
             return true
-
-
         end,
         explain = function()
-            return "初始化群 群号 (所有者功能)"
+            return "初始化群 群号\n--获取该群内所有群员QQ,保存文本"
         end
     },
     {--群发
@@ -285,7 +291,7 @@ local adminapps = {
             local lists = t[1]
             for i = 0, nums do
                 if cqSendGroupMessage(tonumber(lists[i]), keyWord) == -34 then
-                    --在群内被禁言了，打上标记
+                    --在群内被禁言了，直接退群
                     cqSetGroupExit(tonumber(lists[i]))
                 end
             end
@@ -293,7 +299,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "群发 内容(所有者功能)"
+            return "群发 内容\n--需先初始化群列表,群内被禁言将直接退群"
         end
     },
     {--退群
@@ -306,7 +312,7 @@ local adminapps = {
             return true
         end,
         explain = function()
-            return "退群"
+            return "退群 群号\n--退出该群"
         end
     },
     {--test
@@ -469,7 +475,7 @@ local apps = {
 return function(inmsg, inqq, ingroup, inid)
     msg, qq, group, id = inmsg, inqq, ingroup, inid
     --匹配是否需要获取帮助
-    if msg:lower():find("help") == 1 or msg:find("帮助") == 1 or msg:find("菜单") == 1 or msg:find("命令") == 1 then
+    if msg:lower():find("help") == 1 then
         local allApp = {}
         for i = 1, #apps do
             local appExplain = apps[i].explain and apps[i].explain()
@@ -490,7 +496,7 @@ return function(inmsg, inqq, ingroup, inid)
                 table.insert(allApp, appExplain)
             end
         end
-        sendMessage("管理功能\n" ..
+        sendMessage("管理功能(以下操作为全局设置)\n" ..
         table.concat(allApp, "\n") .. "\n")
         return true
     end
