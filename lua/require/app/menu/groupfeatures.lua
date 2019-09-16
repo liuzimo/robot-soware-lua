@@ -132,6 +132,9 @@ return {
                 assets = "500"
                 apiXmlSet(tostring(group),"integral",tostring(qq),tostring(assets))
             end
+            
+            local getassets = require("app.assets.conversion")
+            assets = getassets(tonumber(assets))
             sendMessage(cqCode_At(qq) .."你当前资产为"..assets)
             return true
         end,
@@ -199,6 +202,31 @@ return {
         explain = function()
             return "打劫"
         end
-    }
+    },
+    {--汇率查询
+        check = function()
+            return msg:find("汇率查询")==1
+        end,
+        run = function()
+            sendMessage("1枚金币=520枚银币    1枚银币=520枚铜币")
+            return true
+        end,
+        explain = function()
+            return "打劫"
+        end
+    },
+    {--test
+        check = function()
+            return msg:find("转换")==1
+        end,
+        run = function()
+            local getassets = require("app.assets.conversion")
+            sendMessage(getassets(msg))
+            return true
+        end,
+        explain = function()
+            return "打劫"
+        end
+    },
     }
 end

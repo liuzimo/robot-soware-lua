@@ -71,7 +71,7 @@ return function (qq,group)
     "抽中了"..tostring(banCard).."张禁言卡\r\n"..
     "附赠"..tostring(data.count-1).."张连签奖励\r\n"..
     "当前禁言卡数量："..tostring(cards).."\n"..
-    "金币增加100".."\n"..
+    "铜币增加100".."\n"..
     "当前金币为："..tostring(tostring(tonumber(assets)+100))
 end
 
