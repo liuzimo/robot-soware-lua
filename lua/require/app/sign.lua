@@ -61,18 +61,18 @@ return function (qq,group)
     cards = cards == "" and 0 or tonumber(cards) or 0
     local banCard = math.random(1,10)
     cards = cards + banCard
-    local integral = apiXmlGet(tostring(group), "integral",tostring(qq))
-    if integral == "" then
-        integral = 500
+    local assets = apiXmlGet(tostring(group), "assets",tostring(qq))
+    if assets == "" then
+        assets = 500
     end
-    apiXmlSet(tostring(group),"integral",tostring(qq),tostring(tonumber(integral)+100))
+    apiXmlSet(tostring(group),"assets",tostring(qq),tostring(tonumber(assets)+100))
     apiXmlSet(tostring(group), "banCard",tostring(qq),tostring(cards+data.count-1))
     return "签到成功\r\n"..
     "抽中了"..tostring(banCard).."张禁言卡\r\n"..
     "附赠"..tostring(data.count-1).."张连签奖励\r\n"..
     "当前禁言卡数量："..tostring(cards).."\n"..
-    "积分增加100".."\n"..
-    "当前积分为："..tostring(tostring(tonumber(integral)+100))
+    "金币增加100".."\n"..
+    "当前金币为："..tostring(tostring(tonumber(assets)+100))
 end
 
 

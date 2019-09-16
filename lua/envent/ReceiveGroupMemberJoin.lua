@@ -18,18 +18,18 @@ handled = true
 
 -- local private1 = apiXmlGet(tostring(fromgroup),"newreplay","第一次私聊")~="" or "欢迎加入"
 if operateqq+0~=fromqq then
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."邀请" ..fromqq.."进群")
+    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."  成功邀请  " ..fromqq.."  进群  ".."   赠送100金币 \n可通过'资产查询'查看资产，后续更新游戏功能")
     local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))
     if count == "" then
         count=0
     end
     apiXmlSet(tostring(fromgroup),"invite",tostring(operateqq),tostring(tonumber(count)+1))
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群，".."此次赠送积分100 \n可通过'积分查询'查看积分，后续更新积分游戏功能")
-    local integral = apiXmlGet(tostring(fromgroup), "integral",tostring(operateqq))
-    if integral == "" then
-        integral = 500
+    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群")
+    local assets = apiXmlGet(tostring(fromgroup), "assets",tostring(operateqq))
+    if assets == "" then
+        assets = 500
     end
-    apiXmlSet(tostring(fromgroup),"integral",tostring(operateqq),tostring(tonumber(integral)+100))
+    apiXmlSet(tostring(fromgroup),"assets",tostring(operateqq),tostring(tonumber(assets)+100))
     return true
 end
 
@@ -50,7 +50,7 @@ end
 -- end
 
 
-local inteinitial = require("app.integral.initial")
-if inteinitial(fromgroup,fromqq) then
+local assetsinitial = require("app.assets.initial")
+if assetsinitial(fromgroup,fromqq) then
     handled = true
 end
