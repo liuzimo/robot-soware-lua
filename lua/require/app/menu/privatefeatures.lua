@@ -1,5 +1,5 @@
 --私聊功能菜单
-return function (group,qq,msg)
+return function (qq,msg)
     
 --所有需要运行的app
 return {
