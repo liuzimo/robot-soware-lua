@@ -1,3 +1,3 @@
 # robot-soware-lua
-Don't open the train without a word !
-交流群 788988268
+
+交流群 788988268  群内提供c#接口源代码
