@@ -212,7 +212,7 @@ return {
             return true
         end,
         explain = function()
-            return "打劫"
+            return "汇率查询"
         end
     },
     {--test

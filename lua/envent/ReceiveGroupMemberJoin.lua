@@ -18,7 +18,7 @@ handled = true
 
 -- local private1 = apiXmlGet(tostring(fromgroup),"newreplay","第一次私聊")~="" or "欢迎加入"
 if operateqq+0~=fromqq then
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."  成功邀请  " ..fromqq.."  进群  ".."   赠送100金币 \n可通过'资产查询'查看资产，后续更新游戏功能")
+    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."  成功邀请  " ..fromqq.."  进群  ".."   赠送100铜币 \n可通过'资产查询'查看资产，后续更新游戏功能")
     local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))
     if count == "" then
         count=0
@@ -30,7 +30,6 @@ if operateqq+0~=fromqq then
         assets = 500
     end
     apiXmlSet(tostring(fromgroup),"assets",tostring(operateqq),tostring(tonumber(assets)+100))
-    return true
 end
 
 
