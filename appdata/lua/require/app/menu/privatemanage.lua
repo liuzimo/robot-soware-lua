@@ -300,13 +300,26 @@ return {
             return "退群 群号\n--退出该群"
         end
     },
-    {--test
+    {--运行lua脚本
         check = function()
-            return msg:find("test") == 1
+            return msg:find("#lua") == 1
         end,
         run = function()
-            --apiListenStart()
-            apiTimerStart()
+            if qq == admin then
+                local result, info = pcall(function ()
+                    print = function (s)
+                        sendMessage(tostring(s))
+                    end
+                    load(cqCqCode_UnTrope(msg:sub(5)))()
+                end)
+                if result then
+                    sendMessage(cqCode_At(qq).."成功运行")
+                else
+                    sendMessage(cqCode_At(qq).."运行失败\r\n"..tostring(info))
+                end
+            else
+                sendMessage(cqCode_At(qq).."\r\n"..apiSandBox(cqCqCode_UnTrope(msg:sub(5))))
+            end
             return true
         end,
     },

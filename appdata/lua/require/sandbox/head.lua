@@ -5,7 +5,7 @@ rootPath = rootPath:gsub("%x%x", function(c)
                                     return string.char(tonumber(c, 16))
                                 end)
 package.path = package.path..
-";"..rootPath.."/data/app/com.papapoi.ReceiverMeow/lua/require/sandbox/?.lua"
+";"..rootPath.."/data/app/com.robot.soware/lua/require/sandbox/?.lua"
 
 JSONLIB = require("JSON")
 utils = require("utils")
@@ -69,10 +69,18 @@ debug.sethook(trace, "l")
 
 loadstring = load
 
-struct = require("struct")
 pack = {
-    pack = struct.pack,
-    unpack = struct.unpack,
+    pack = string.pack,
+    unpack = function (s,f,h)
+        local t
+        if h then
+            t = table.pack(string.unpack(f,s:sub(h)))
+        else
+            t = table.pack(string.unpack(f,s))
+        end
+        table.insert(t,1,table.remove(t,#t))
+        return table.unpack(t)
+    end,
 }
 
 BIT = require("bit")
