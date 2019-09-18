@@ -226,5 +226,24 @@ return {
             return true
         end,
     },
+    {--通用回复
+    check = function ()
+        return true
+    end,
+    run = function ()
+        local replyGroup = group and apiXmlReplayGet(tostring(group),"common",msg) or ""
+        local replyCommon = apiXmlReplayGet("","common",msg)
+        if replyGroup == "" and replyCommon ~= "" then
+            sendMessage(replyCommon)
+        elseif replyGroup ~= "" and replyCommon == "" then
+            sendMessage(replyGroup)
+        elseif replyGroup ~= "" and replyCommon ~= "" then
+            sendMessage(math.random(1,10)>=5 and replyCommon or replyGroup)
+        else
+            return false
+        end
+        return true
+    end
+},
     }
 end
