@@ -386,5 +386,28 @@ return {
             return "发送语音 "
         end
     },
+    {--运行lua脚本
+        check = function()
+            return msg:find("#lua") == 1
+        end,
+        run = function()
+            if qq == admin then
+                local result, info = pcall(function ()
+                    print = function (s)
+                        sendMessage(tostring(s))
+                    end
+                    load(cqCqCode_UnTrope(msg:sub(5)))()
+                end)
+                if result then
+                    sendMessage(cqCode_At(qq).."成功运行")
+                else
+                    sendMessage(cqCode_At(qq).."运行失败\r\n"..tostring(info))
+                end
+            else
+                sendMessage(cqCode_At(qq).."权限不足")
+            end
+            return true
+        end,
+    },
 }
 end

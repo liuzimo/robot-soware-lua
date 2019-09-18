@@ -130,7 +130,7 @@ return {
             local assets = apiXmlGet(tostring(group), "assets",tostring(qq))
             if assets == "" then
                 assets = "500"
-                apiXmlSet(tostring(group),"integral",tostring(qq),tostring(assets))
+                apiXmlSet(tostring(group),"assets",tostring(qq),tostring(assets))
             end
             
             local getassets = require("app.assets.conversion")
@@ -215,18 +215,16 @@ return {
             return "汇率查询"
         end
     },
-    {--test
+    {--
         check = function()
-            return msg:find("转换")==1
+            return msg:find("图片")==1
         end,
         run = function()
-            local getassets = require("app.assets.conversion")
-            sendMessage(getassets(msg))
+            local imagePath = apiGetImagePath(msg)--获取图片路径
+            if imagePath == "" then imagePath = "未在消息中过滤出图片" end
+            sendMessage(imagePath)
             return true
         end,
-        explain = function()
-            return "打劫"
-        end
     },
     }
 end
