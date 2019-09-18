@@ -231,7 +231,7 @@ return {
         return true
     end,
     run = function ()
-        local replyGroup = group and apiXmlReplayGet(tostring(group),"common",msg) or ""
+        local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
         local replyCommon = apiXmlReplayGet("","common",msg)
         if replyGroup == "" and replyCommon ~= "" then
             sendMessage(replyCommon)

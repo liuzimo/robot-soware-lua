@@ -305,16 +305,26 @@ return {
     },
     {--分享链接
         check = function()
-            return msg:find("分享链接") == 1
+            return msg:find("创建链接") == 1
         end,
         run = function()
-            local q = tonumber(msg:match("(%d+)"))
-            local link = cqCqCode_ShareLink("https://baike.baidu.com/item/%E6%B2%99%E9%9B%95/22847664", "标题标题标题标题标题标题标题", "内容内容内容内容内容内容内容内容内容", "http://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=%E5%9B%BE%E7%89%87&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=3775805866,1434593229&os=1732530214,201291421&simid=3377485113,378680154&pn=1&rn=1&di=131010&ln=774&fr=&fmq=1567847340283_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&objurl=http%3A%2F%2Fphotocdn.sohu.com%2F20120708%2FImg347586981.jpg&rpstart=0&rpnum=0&adpicid=0&force=undefined")
-            sendMessage(link)
+            local img,link,title,content = msg:match("\r\n(.+)\r\n(.+)\r\n(.+)\r\n(.+)")
+            if img == nil then
+                sendMessage("图片路径为空")
+            elseif link == nil then
+                sendMessage("链接路径为空")
+            elseif title == nil then
+                sendMessage("标题为空")
+            elseif content == nil then
+                sendMessage("内容为空")
+            else
+                local link = cqCqCode_ShareLink(link, title, content, img)
+                sendMessage(link)
+            end
             return true
         end,
         explain = function()
-            return "分享链接 "
+            return "创建链接 "
         end
     },
     {--分享群名片
@@ -349,15 +359,28 @@ return {
     },
     {--分享位置
         check = function()
-            return msg:find("分享位置") == 1
+            return msg:find("创建位置") == 1
         end,
         run = function()
-            local gps = cqCqCode_ShareGPS("我在你家里的卧室的床上", "快来给我盖被子", 20, 30, 15)
-            sendMessage(gps)
+            local localtion,description,E,W,S = msg:match("\r\n(.+)\r\n(.+)\r\n(.+)\r\n(.+)\r\n(.+)")
+            if localtion == nil then
+                sendMessage("地点为空")
+            elseif description == nil then
+                sendMessage("说明为空")
+            elseif E == nil then
+                E=0
+            elseif W == nil then
+                W=0
+            elseif S == nil then
+                S=0
+            else
+                local gps = cqCqCode_ShareGPS(localtion,description,E,W,S)
+                sendMessage(gps)
+            end
             return true
         end,
         explain = function()
-            return "分享位置 "
+            return "创建位置 "
         end
     },
     {--发送图片
