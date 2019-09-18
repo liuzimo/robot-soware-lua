@@ -8,8 +8,16 @@
 
 --if cqGetLoginQQ() ~= 751323264 then return end--仅限官方群里的机器人号用这个功能
 
-local time = os.date("*t")
-cqSendPrivateMessage(919825501,tostring(time))
+local time = os.date("%H")
+local flag = "休息中"
+if time == "9" then
+    flag = "早上好"
+elseif time == "13" then
+    flag = "中文好"
+elseif time =="20" then
+    flag = "晚上好"
+end
+--cqSendPrivateMessage(919825501,flag)
 
 -- lowSpace = 10 --剩余空间多少G
 
