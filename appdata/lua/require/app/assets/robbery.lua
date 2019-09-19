@@ -14,9 +14,12 @@ return function (fromgroup,fromqq,msg)
     if intbe == "" then
         intbe = 500
     end
+    local rob = math.random(100,519)
+    if tonumber(intin) < rob then
+        rob = tonumber(intin)
+    end
+    apiXmlSet(tostring(fromgroup),"assets",tostring(beingoperateqq),tostring(tonumber(intin)-rob))
+    apiXmlSet(tostring(fromgroup),"assets",tostring(fromqq),tostring(tonumber(intbe)+rob))
 
-    apiXmlSet(tostring(fromgroup),"assets",tostring(beingoperateqq),tostring(tonumber(intin)-100))
-    apiXmlSet(tostring(fromgroup),"assets",tostring(fromqq),tostring(tonumber(intbe)+100))
-
-    return "打劫到100铜币"
+    return "打劫到"..rob.."铜币"
 end

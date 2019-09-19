@@ -192,7 +192,7 @@ return {
     },
     {--打劫
         check = function()
-            return msg:find("打劫")==1
+            return msg:find("打劫%[CQ:at,qq=")==1
         end,
         run = function()
             local rob = require("app.assets.robbery")
