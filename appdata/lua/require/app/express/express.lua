@@ -34,7 +34,7 @@ return function(msg,qq)
         end
         apiXmlSet("", "shippercode", d["Shippers"][1]["ShipperName"], d["Shippers"][1]["ShipperCode"])
         local expressearch = require("app.express.expressearch")
-        return expressearch(shipper, logisticode)
+        return expressearch(d["Shippers"][1]["ShipperName"], logisticode)
     end
 
     local m = "当前单号查询出" .. #d["Shippers"] .. "家快递公司\n"

@@ -21,5 +21,5 @@ return function (fromgroup,fromqq,msg)
     apiXmlSet(tostring(fromgroup),"assets",tostring(beingoperateqq),tostring(tonumber(intin)-rob))
     apiXmlSet(tostring(fromgroup),"assets",tostring(fromqq),tostring(tonumber(intbe)+rob))
 
-    return "打劫到"..rob.."铜币"
+    return "打劫到"..rob.."铜币     体力减1"
 end
