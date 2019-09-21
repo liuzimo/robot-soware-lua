@@ -217,7 +217,7 @@ return {
     },
     {--通用回复
     check = function ()
-        return true
+        return not msg:find("%[CQ:")
     end,
     run = function ()
         local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)

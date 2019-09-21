@@ -132,7 +132,7 @@ return {
     },
     {--通用回复
         check = function()
-            return admin~=-1 
+            return admin~=-1 and not msg:find("%[CQ:")
         end,
         run = function()
             -- local replyCommon = apiXmlReplayGet("", "common", msg)
@@ -150,7 +150,7 @@ return {
                 return true
             else
                 apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg,"image".."\\"..msg)
-                sendMessage(cqCqCode_Image(msg.."\\"..math.random(1,10)..".jpg"))    
+                sendMessage(cqCqCode_Image(msg.."\\"..math.random(1,10)..".jpg")==false or cqCqCode_Image(msg.."\\1.jpg") )
                 return true
             end
             return true
@@ -175,7 +175,7 @@ return {
         run = function()
             -- local replyCommon = apiXmlReplayGet("", "common", msg)
             -- sendMessage(replyCommon)
-            sendMessage("请输入开机密码")
+            sendMessage("智能机器人soware为您服务,该插件支持pro版本，请下载语音插件，并右键管理员打开酷Q，方可使用全部功能\n官方qq群：788988268\n请输入开机密码")
             return true
         end
     },

@@ -8,6 +8,11 @@ if admin == -1 then
     apiSetVar("adminqq", admin)
     admin = tonumber(admin) or -1
 end
+
+--读取语音性格
+mettle = apiXmlGet("","settings", "mettle")
+apiSetVar("mettle", mettle)
+
 -- if admin == -1 then
 --     cqAddLoger(20, "lua插件警告", "请去" .. apiGetPath() .. "data/app/com.robot.soware/xml/settings.xml文件，设置管理员qq！")
 -- end
