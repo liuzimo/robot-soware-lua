@@ -215,6 +215,19 @@ return {
             return "汇率查询"
         end
     },
+    {--短故事
+        check = function()
+            return msg:find("短故事")==1
+        end,
+        run = function()
+            local story = require("app.shortstory")
+            sendMessage(story())
+            return true
+        end,
+        explain = function()
+            return "短故事"
+        end
+    },
     {--通用回复
     check = function ()
         return not msg:find("%[CQ:")

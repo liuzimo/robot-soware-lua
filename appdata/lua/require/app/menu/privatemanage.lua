@@ -341,14 +341,9 @@ return {
             return msg:find("test")==1
         end,
         run = function()
-            
-            key = msg:gsub("test", "")
-            apiHttpImageDownload("https://www.doutula.com/search?keyword="..key,"image".."\\"..key)
+            sendMessage(apiHttpPost("http://api.tianapi.com/txapi/mnpara/","key=573aa0cf0df39768739d1357b4c367c5"))
             return true
         end,
-        explain = function()
-            return "斗图模式"
-        end
     },
 }
 end
