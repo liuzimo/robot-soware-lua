@@ -130,6 +130,32 @@ return {
             return "必应壁纸"
         end
     },
+    {--短故事
+        check = function()
+            return msg:find("短故事")==1
+        end,
+        run = function()
+            local story = require("app.shortstory")
+            sendMessage(story())
+            return true
+        end,
+        explain = function()
+            return "短故事"
+        end
+    },
+    {--翻译
+        check = function()
+            return msg:find("翻译")==1
+        end,
+        run = function()
+            local translate = require("app.translate")
+            sendMessage(translate(msg))
+            return true
+        end,
+        explain = function()
+            return "翻译"
+        end
+    },
     {--通用回复
         check = function()
             return admin~=-1 and not msg:find("%[CQ:")

@@ -228,6 +228,19 @@ return {
             return "短故事"
         end
     },
+    {--翻译
+        check = function()
+            return msg:find("翻译")==1
+        end,
+        run = function()
+            local translate = require("app.translate")
+            sendMessage(translate(msg))
+            return true
+        end,
+        explain = function()
+            return "翻译"
+        end
+    },
     {--通用回复
     check = function ()
         return not msg:find("%[CQ:")
@@ -250,7 +263,7 @@ return {
             return true
         else
             apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg,"image".."\\"..msg)
-            sendMessage(cqCqCode_Image(msg.."\\"..math.random(1,10)..".jpg"))    
+            sendMessage(cqCqCode_Image(msg.."\\"..math.random(1,10)..".jpg")==false or cqCqCode_Image(msg.."\\1.jpg") )
             return true
         end
         
