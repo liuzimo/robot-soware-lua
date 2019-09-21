@@ -388,7 +388,8 @@ return {
             return msg:find("发送图片") == 1
         end,
         run = function()
-            local gps = cqCqCode_Image("1.jpg")
+            local path = msg:gsub("发送图片","")
+            local gps = cqCqCode_Image(path)
             sendMessage(gps)
             return true
         end,
@@ -401,7 +402,8 @@ return {
             return msg:find("发送语音") == 1
         end,
         run = function()
-            local record = cqCqCode_Record("1.mp3")
+            local path = msg:gsub("发送语音","")
+            local record = cqCqCode_Record(path)
             sendMessage(record)
             return true
         end,

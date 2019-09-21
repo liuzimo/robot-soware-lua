@@ -323,5 +323,32 @@ return {
             return true
         end,
     },
+    {--语音性格设置
+        check = function()
+            return msg:find("语音性格设置") == 1
+        end,
+        run = function()
+            local mettle = msg:gsub("语音性格设置","")
+            apiSetVar("mettle", mettle)
+            return true
+        end,
+        explain = function()
+            return "语音性格设置"
+        end
+    },
+    {--斗图模式
+        check = function()
+            return msg:find("test")==1
+        end,
+        run = function()
+            
+            key = msg:gsub("test", "")
+            apiHttpImageDownload("https://www.doutula.com/search?keyword="..key,"image".."\\"..key)
+            return true
+        end,
+        explain = function()
+            return "斗图模式"
+        end
+    },
 }
 end

@@ -132,7 +132,7 @@ return {
     },
     {--通用回复
         check = function()
-            return true
+            return admin~=-1 
         end,
         run = function()
             -- local replyCommon = apiXmlReplayGet("", "common", msg)
@@ -142,6 +142,17 @@ return {
             "机器人交流群 788988268\n" ..
             "主人QQ 919825501\n" ..
             "可以把我拉到其他群里一起玩哦~ 后续功能继续开发中。。。")
+            return true
+        end
+    },
+    {--通用回复
+        check = function()
+            return admin==-1 
+        end,
+        run = function()
+            -- local replyCommon = apiXmlReplayGet("", "common", msg)
+            -- sendMessage(replyCommon)
+            sendMessage("请输入开机密码")
             return true
         end
     },

@@ -215,17 +215,6 @@ return {
             return "汇率查询"
         end
     },
-    {--
-        check = function()
-            return msg:find("图片")==1
-        end,
-        run = function()
-            local imagePath = apiGetImagePath(msg)--获取图片路径
-            if imagePath == "" then imagePath = "未在消息中过滤出图片" end
-            sendMessage(imagePath)
-            return true
-        end,
-    },
     {--通用回复
     check = function ()
         return true
@@ -233,15 +222,25 @@ return {
     run = function ()
         local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
         local replyCommon = apiXmlReplayGet("","common",msg)
+        local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
         if replyGroup == "" and replyCommon ~= "" then
             sendMessage(replyCommon)
+            return true
         elseif replyGroup ~= "" and replyCommon == "" then
             sendMessage(replyGroup)
+            return true
         elseif replyGroup ~= "" and replyCommon ~= "" then
             sendMessage(math.random(1,10)>=5 and replyCommon or replyGroup)
+            return true
+        elseif replyrecord ~= "" then
+            sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+            return true
         else
-            return false
+            apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg,"image".."\\"..msg)
+            sendMessage(cqCqCode_Image(msg.."\\"..math.random(1,10)..".jpg"))    
+            return true
         end
+        
         return true
     end
 },

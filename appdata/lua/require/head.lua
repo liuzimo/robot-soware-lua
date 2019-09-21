@@ -8,9 +8,9 @@ if admin == -1 then
     apiSetVar("adminqq", admin)
     admin = tonumber(admin) or -1
 end
-if admin == -1 then
-    cqAddLoger(20, "lua插件警告", "请去" .. apiGetPath() .. "data/app/com.robot.soware/xml/settings.xml文件，设置管理员qq！")
-end
+-- if admin == -1 then
+--     cqAddLoger(20, "lua插件警告", "请去" .. apiGetPath() .. "data/app/com.robot.soware/xml/settings.xml文件，设置管理员qq！")
+-- end
 
 --加强随机数随机性
 math.randomseed(tostring(os.time()):reverse():sub(1, 6))
