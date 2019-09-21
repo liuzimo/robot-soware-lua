@@ -137,15 +137,38 @@ return {
         run = function()
             -- local replyCommon = apiXmlReplayGet("", "common", msg)
             -- sendMessage(replyCommon)
-            sendMessage("你可以通过 'help' 来获取一般功能帮助\n" ..
-            "或者通过 'manage'来管理我 私聊和群聊有不同效果哦\n" ..
-            "机器人交流群 788988268\n" ..
-            "主人QQ 919825501\n" ..
-            "可以把我拉到其他群里一起玩哦~ 后续功能继续开发中。。。")
+            local replyCommon = apiXmlReplayGet("","common",msg)
+            local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
+            if replyrecord == "" and replyCommon ~= "" then
+                sendMessage(replyCommon)
+                return true
+            elseif replyrecord ~= "" and replyCommon == "" then
+                sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+                return true
+            elseif replyrecord ~= "" and replyCommon ~= "" then
+                sendMessage(math.random(1,10)>=5 and replyCommon or cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
+                return true
+            else
+                apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg,"image".."\\"..msg)
+                sendMessage(cqCqCode_Image(msg.."\\"..math.random(1,10)..".jpg"))    
+                return true
+            end
             return true
         end
     },
-    {--通用回复
+    {--开机密码
+        check = function()
+            return msg == "我爱你" and admin==-1 
+        end,
+        run = function()
+            -- local replyCommon = apiXmlReplayGet("", "common", msg)
+            -- sendMessage(replyCommon)
+            apiXmlSet("","settings", "adminqq",tostring(qq))
+            admin = tostring(qq)
+            return true
+        end
+    },
+    {--初始验证
         check = function()
             return admin==-1 
         end,
