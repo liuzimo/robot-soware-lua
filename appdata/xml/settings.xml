@@ -11,7 +11,7 @@
   <msginfo>
     <msg>autoUpdate</msg>
     <!-- 是否要自动更新lua脚本？(每天凌晨自动检查更新) -->
-    <ans>false</ans>
+    <ans>true</ans>
     <!-- 注意！如果是想自己写lua脚本，请把这个设置项改为false，不然脚本会被清空覆盖 -->
   </msginfo>
   <msginfo>
