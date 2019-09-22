@@ -217,15 +217,15 @@ return {
     },
     {--短故事
         check = function()
-            return msg:find("短故事")==1
+            return msg:find("小故事")==1
         end,
         run = function()
-            local story = require("app.shortstory")
+            local story = require("app.story")
             sendMessage(story())
             return true
         end,
         explain = function()
-            return "短故事"
+            return "小故事"
         end
     },
     {--翻译
@@ -240,6 +240,47 @@ return {
         explain = function()
             return "翻译"
         end
+    },
+    {--文字识别
+        check = function()
+            return msg:find("文字识别")==1
+        end,
+        run = function()
+            local textocr = require("app.baiduapi.textocr")
+            sendMessage(textocr(qq,msg))
+            return true
+        end,
+        explain = function()
+            return "文字识别"
+        end
+    },
+    {--图像识别
+        check = function()
+            return msg:find("图像识别")==1
+        end,
+        run = function()
+            local imageocr = require("app.baiduapi.imageocr")
+            sendMessage(imageocr(qq,msg))
+            return true
+        end,
+        explain = function()
+            return "图像识别"
+        end
+    },
+    {--手机端图片延迟输入
+        check = function()
+            return msg:find("%[CQ:image,file=")==1
+        end,
+        run = function()
+            if tonumber(apiXmlGet("","imageocr",tostring(qq))) == 0 then 
+                local imageocr = require("app.baiduapi.imageocr")
+                sendMessage(imageocr(qq,msg))
+            elseif tonumber(apiXmlGet("","textocr",tostring(qq))) == 0 then 
+                local textocr = require("app.baiduapi.textocr")
+                sendMessage(textocr(qq,msg))
+            end
+            return true
+        end,
     },
     {--通用回复
     check = function ()
