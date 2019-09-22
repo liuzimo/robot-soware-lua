@@ -341,7 +341,7 @@ return {
             return msg:find("test")==1
         end,
         run = function()
-            sendMessage(apiHttpPost("http://api.tianapi.com/txapi/mnpara/","key=573aa0cf0df39768739d1357b4c367c5"))
+            sendMessage(tostring(string.len(msg)))
             return true
         end,
     },
