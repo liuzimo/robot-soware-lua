@@ -19,7 +19,7 @@ return function (qq,msg)
     end
     local m=""
     for i=1,t["result_num"] do
-        m = m.."相似度："..t["result"][i]["score"].."     类型："..t["result"][i]["root"].."     名称："..t["result"][i]["keyword"].."\n"
+        m = m.."相似度："..t["result"][i]["score"].."     描述："..t["result"][i]["root"].."     名称："..t["result"][i]["keyword"].."\n"
     end
     apiXmlSet("","imageocr",tostring(qq),"1")
     return m
