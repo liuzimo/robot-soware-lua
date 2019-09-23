@@ -220,7 +220,7 @@ return {
             return msg:find("小故事")==1
         end,
         run = function()
-            local story = require("app.story")
+            local story = require("app.tianxinapi.story")
             sendMessage(story())
             return true
         end,
@@ -233,7 +233,7 @@ return {
             return msg:find("翻译")==1
         end,
         run = function()
-            local translate = require("app.translate")
+            local translate = require("app.tianxinapi.translate")
             sendMessage(translate(msg))
             return true
         end,
@@ -282,6 +282,37 @@ return {
             return true
         end,
     },
+    {--二维码生成
+        check = function()
+            return msg:find("二维码生成")==1
+        end,
+        run = function()
+            local key = msg:gsub("二维码生成","")
+            if apiQREncode(key) < 0 then
+                sendMessage("数据过长")
+                return true
+            end
+            sendMessage(cqCqCode_Image("qr.jpg"))
+            return true
+        end,
+        explain = function()
+            return "二维码生成"
+        end
+    },
+    {--二维码logo生成
+        check = function()
+            return msg:find("二维码logo生成")==1
+        end,
+        run = function()
+            local key = msg:gsub("二维码logo生成","")
+            apiCombinImage("qr.jpg","logo.jpg")
+            sendMessage(cqCqCode_Image("add.jpg"))
+            return true
+        end,
+        explain = function()
+            return "二维码logo生成"
+        end
+    },
     {--通用回复
     check = function ()
         return not msg:find("%[CQ:")
@@ -306,7 +337,9 @@ return {
         
         if string.len(msg) < 45 then
             apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
-            sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")==false or cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
+            if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
+                sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
+            end
             return true
         end
         return true

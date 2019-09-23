@@ -135,7 +135,7 @@ return {
             return msg:find("小故事")==1
         end,
         run = function()
-            local story = require("app.story")
+            local story = require("app.tianxinapi.story")
             sendMessage(story())
             return true
         end,
@@ -148,7 +148,7 @@ return {
             return msg:find("翻译")==1
         end,
         run = function()
-            local translate = require("app.translate")
+            local translate = require("app.tianxinapi.translate")
             sendMessage(translate(msg))
             return true
         end,
@@ -218,7 +218,9 @@ return {
             end
             if string.len(msg) < 45 then
                 apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
-                sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")==false or cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
+                if cqSendPrivateMessage(qq,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
+                    sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
+                end
                 return true
             end
             return true
