@@ -8,15 +8,22 @@
 
 --if cqGetLoginQQ() ~= 751323264 then return end--仅限官方群里的机器人号用这个功能
 
-local time = os.date("%H")
-local flag = "休息中"
-if time == "9" then
-    flag = "早上好"
-elseif time == "13" then
-    flag = "中文好"
-elseif time =="20" then
-    flag = "晚上好"
+local time = tonumber(os.date("%H"))
+
+if time>0 and time <6 then
+    time = "现在是凌晨"..time.."点！\n"
+elseif time>5 and time <11 then
+    local morning = require("app.time.morning")
+    if morning(time) then handled = true end
+elseif time>10 and time <13 then
+    time = "现在是中午"..time.."点！\n"
+elseif time>12 and time <19 then
+    time = "现在是下午"..tostring(time-12).."点！\n"
+elseif time>18 and time <25 then
+    local night = require("app.time.night")
+    if night(time) then handled = true end
 end
+
 --cqSendPrivateMessage(919825501,flag)
 
 -- lowSpace = 10 --剩余空间多少G

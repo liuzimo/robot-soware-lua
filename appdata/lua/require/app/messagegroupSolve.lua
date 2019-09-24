@@ -33,7 +33,7 @@ return function(inmsg, inqq, ingroup, inid)
 
     --加载菜单
     local getapp = require("app.menu.groupfeatures")
-    local apps = getapp(group,qq,msg)
+    local apps = getapp(group,qq,msg,id)
     local getadminapp = require("app.menu.groupmanage")
     local adminapps = getadminapp(group,qq,msg)
 
@@ -108,7 +108,7 @@ return function(inmsg, inqq, ingroup, inid)
             return true
         end
         
-        if apiXmlGet("","noimage",tostring(group))~="t" and string.len(msg) < 45 then
+        if apiXmlGet("","noimage",tostring(group))~="f" and string.len(msg) < 45 then
             apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
             if cqSendGroupMessage(group,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
                 sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )

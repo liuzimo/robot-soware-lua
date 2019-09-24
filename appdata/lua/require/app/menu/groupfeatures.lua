@@ -1,9 +1,22 @@
 --群功能菜单
-return function (group,qq,msg)
+return function (group,qq,msg,id)
     
 --所有需要运行的app
 return {
 
+    {--撤回
+        check = function()
+            return msg:find("支持所有") or msg:find("来不及解释") or msg:find("急急急") or msg:find("帮我点一下") or msg:find("点击链接")
+        end,
+        run = function()
+            if cqRepealMessage(id) == -42 then
+                sendMessage("权限不足,请管理员手动撤回")
+                return true
+            end
+            sendMessage("发现疑似广告已撤回,违规账号："..qq)
+            return true
+        end,
+    },
     {--今日运势
         check = function()
             return msg == "今日运势" or msg == "明日运势" or msg == "昨日运势"
@@ -326,6 +339,39 @@ return {
         end,
         run = function()
             sendMessage("我被猪@了")
+            return true
+        end,
+    },
+    {--表情彩蛋
+        check = function()
+            return msg:find("%[CQ:face") and msg:find("21") 
+        end,
+        run = function()
+            -- local same= math.random(1, 39)
+            local same= 66
+            local m=""
+            m = m.."              [CQ:face,id="..same.."]  ".."[CQ:face,id="..same.."]          ".."[CQ:face,id="..same.."]  ".."[CQ:face,id="..same.."]".."\n"
+            m = m.."          [CQ:face,id="..same.."]              ".."[CQ:face,id="..same.."]              ".."[CQ:face,id="..same.."]    ".."\n"
+            m = m.."            [CQ:face,id="..same.."]             ".."                 [CQ:face,id="..same.."]   ".."\n"
+            m = m.."                [CQ:face,id="..same.."]                       ".."[CQ:face,id="..same.."]                         ".."\n"
+            m = m.."                     [CQ:face,id="..same.."]       ".."      ".."[CQ:face,id="..same.."]             ".."\n"
+            m = m.."                              [CQ:face,id="..same.."]                                 "
+            sendMessage(m)
+            return true
+        end,
+    },
+    {--表情彩蛋
+        check = function()
+            return msg:find("test") 
+        end,
+        run = function()
+            local file = io.open("C:/1.txt" ,"r");
+            for line in file:lines() do
+                local num,key = line:match("(.+)、(.+)")
+                apiXmlSet("","SoulSoother",tostring(num),key)
+            end
+            file:close()
+            sendMessage("文件转换完毕")
             return true
         end,
     },
