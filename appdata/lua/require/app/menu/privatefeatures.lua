@@ -193,9 +193,56 @@ return {
             elseif tonumber(apiXmlGet("","textocr",tostring(qq))) == 0 then 
                 local textocr = require("app.baiduapi.textocr")
                 sendMessage(textocr(qq,msg))
+            elseif tonumber(apiXmlGet("","qrocr",tostring(qq))) == 0 then 
+                local QRocr = require("app.QRocr")
+                sendMessage(QRocr(qq,msg))
             end
             return true
         end,
+    },
+    {--二维码生成
+        check = function()
+            return msg:find("二维码生成")==1
+        end,
+        run = function()
+            local key = msg:gsub("二维码生成","")
+            if apiQREncode(key) < 0 then
+                sendMessage("数据过长")
+                return true
+            end
+            sendMessage(cqCqCode_Image("qr.jpg"))
+            return true
+        end,
+        explain = function()
+            return "二维码生成"
+        end
+    },
+    {--二维码logo生成
+        check = function()
+            return msg:find("二维码logo生成")==1
+        end,
+        run = function()
+            local key = msg:gsub("二维码logo生成","")
+            apiCombinImage("qr.jpg","logo.png")
+            sendMessage(cqCqCode_Image("add.jpg"))
+            return true
+        end,
+        explain = function()
+            return "二维码logo生成"
+        end
+    },
+    {--二维码解码
+        check = function()
+            return msg:find("二维码解码")==1
+        end,
+        run = function()
+            local QRocr = require("app.QRocr")
+            sendMessage(QRocr(qq,msg))
+            return true
+        end,
+        explain = function()
+            return "二维码解码"
+        end
     },
     {--通用回复
         check = function()
