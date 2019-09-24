@@ -59,7 +59,7 @@ return function (qq,group)
 
     local cards = apiXmlGet(tostring(group), "banCard",tostring(qq))
     cards = cards == "" and 0 or tonumber(cards) or 0
-    local banCard = math.random(1,10)
+    local banCard = 1
     cards = cards + banCard
     local assets = apiXmlGet(tostring(group), "assets",tostring(qq))
     if assets == "" then
@@ -68,7 +68,7 @@ return function (qq,group)
     apiXmlSet(tostring(group),"assets",tostring(qq),tostring(tonumber(assets)+100))
     apiXmlSet(tostring(group), "banCard",tostring(qq),tostring(cards+data.count-1))
     return "签到成功\r\n"..
-    "抽中了"..tostring(banCard).."张禁言卡\r\n"..
+    "奖励"..tostring(banCard).."张禁言卡\r\n"..
     "附赠"..tostring(data.count-1).."张连签奖励\r\n"..
     "当前禁言卡数量："..tostring(cards).."\n"..
     "铜币增加100"

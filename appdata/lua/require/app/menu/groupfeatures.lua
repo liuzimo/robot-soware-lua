@@ -320,71 +320,6 @@ return {
             return "二维码解码"
         end
     },
-    {--该群不说话
-        check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("闭嘴") and admin==qq 
-        end,
-        run = function()
-            apiXmlSet("","Shutup",tostring(group),"f")
-            sendMessage("我先走了,有事再叫我噢！")
-            return true
-        end,
-        explain = function()
-            return "闭嘴"
-        end
-    },
-    {--不发语音
-        check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不发语音") and admin==qq 
-        end,
-        run = function()
-            apiXmlSet("","norecord",tostring(group),"f")
-            sendMessage("好的我不发语音了")
-            return true
-        end,
-        explain = function()
-            return "不发语音"
-        end
-    },
-    {--不发图片
-        check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不发图片") and admin==qq 
-        end,
-        run = function()
-            apiXmlSet("","noimage",tostring(group),"f")
-            sendMessage("好的我不发图了")
-            return true
-        end,
-        explain = function()
-            return "不发图片"
-        end
-    },
-    {--不发语音
-        check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("发语音") and admin==qq 
-        end,
-        run = function()
-            apiXmlSet("","norecord",tostring(group),"t")
-            sendMessage("可以发语音咯")
-            return true
-        end,
-        explain = function()
-            return "发语音"
-        end
-    },
-    {--不发图片
-        check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("发图片") and admin==qq 
-        end,
-        run = function()
-            apiXmlSet("","noimage",tostring(group),"t")
-            sendMessage("可以发图咯")
-            return true
-        end,
-        explain = function()
-            return "发图片"
-        end
-    },
     {--@触发
         check = function()
             return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:gsub("%[CQ:.-%]", ""):len() > 2
@@ -393,14 +328,6 @@ return {
             sendMessage("我被猪@了")
             return true
         end,
-    },
-    {--通用回复
-        check = function ()
-            return 
-        end,
-        run = function ()
-            
-        end
     },
     }
 end

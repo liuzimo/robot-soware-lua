@@ -45,7 +45,7 @@ return function(msg, qq, group)
             cqSetGroupBanSpeak(group, qq, banTime * 60)
             return cqCode_At(qq) .. "恭喜你抽中了禁言" .. tostring(banTime) .. "分钟"
         else
-            local banCard = math.random(-5, 6)
+            local banCard = math.random(1, 6)
             cards = cards + banCard
             apiXmlSet(tostring(group), "banCard", tostring(qq), tostring(cards))
             return cqCode_At(qq) .. "恭喜你抽中了" .. tostring(banCard) .. "张禁言卡\r\n" ..

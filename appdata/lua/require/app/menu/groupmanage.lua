@@ -411,6 +411,71 @@ return {
             return "发送语音 "
         end
     },
+    {--该群不说话
+        check = function()
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("闭嘴") and admin==qq or msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("别说话") and admin==qq 
+        end,
+        run = function()
+            apiXmlSet("","Shutup",tostring(group),"f")
+            sendMessage("我先走了,有事再叫我噢！")
+            return true
+        end,
+        explain = function()
+            return "闭嘴  或者 别说话"
+        end
+    },
+    {--不发语音
+        check = function()
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发语音") and admin==qq 
+        end,
+        run = function()
+            apiXmlSet("","norecord",tostring(group),"f")
+            sendMessage("好的我不发语音了")
+            return true
+        end,
+        explain = function()
+            return "不要发语音"
+        end
+    },
+    {--不发图片
+        check = function()
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发图") and admin==qq 
+        end,
+        run = function()
+            apiXmlSet("","noimage",tostring(group),"f")
+            sendMessage("好的我不发图了")
+            return true
+        end,
+        explain = function()
+            return "不要发图片"
+        end
+    },
+    {--发语音
+        check = function()
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("可以发语音") and admin==qq 
+        end,
+        run = function()
+            apiXmlSet("","norecord",tostring(group),"t")
+            sendMessage("可以发语音咯")
+            return true
+        end,
+        explain = function()
+            return "可以发语音"
+        end
+    },
+    {--发图片
+        check = function()
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("可以发图") and admin==qq 
+        end,
+        run = function()
+            apiXmlSet("","noimage",tostring(group),"t")
+            sendMessage("可以发图咯")
+            return true
+        end,
+        explain = function()
+            return "可以发图片"
+        end
+    },
     {--运行lua脚本
         check = function()
             return msg:find("#lua") == 1
