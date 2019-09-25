@@ -135,26 +135,6 @@ return {
             return "签到"
         end
     },
-    {--资产查询
-        check = function()
-            return msg == "资产查询"
-        end,
-        run = function()
-            local assets = apiXmlGet(tostring(group), "assets",tostring(qq))
-            if assets == "" then
-                assets = "500"
-                apiXmlSet(tostring(group),"assets",tostring(qq),tostring(assets))
-            end
-            
-            local getassets = require("app.assets.conversion")
-            assets = getassets(tonumber(assets))
-            sendMessage(cqCode_At(qq) .."你当前资产为"..assets)
-            return true
-        end,
-        explain = function()
-            return "资产查询"
-        end
-    },
     {--b站av号解析
         check = function()
             return msg:find("av%d+")
@@ -192,31 +172,6 @@ return {
         end,
         explain = function()
             return "必应壁纸"
-        end
-    },
-    {--打劫
-        check = function()
-            return msg:find("打劫%[CQ:at,qq=")==1
-        end,
-        run = function()
-            local rob = require("app.assets.robbery")
-            sendMessage(rob(group,qq,msg))
-            return true
-        end,
-        explain = function()
-            return "打劫"
-        end
-    },
-    {--汇率查询
-        check = function()
-            return msg:find("汇率查询")==1
-        end,
-        run = function()
-            sendMessage("1枚金币=520枚银币    1枚银币=520枚铜币")
-            return true
-        end,
-        explain = function()
-            return "汇率查询"
         end
     },
     {--短故事
@@ -359,21 +314,6 @@ return {
             sendMessage(m)
             return true
         end,
-    },
-    {--表情彩蛋
-        check = function()
-            return msg:find("test") 
-        end,
-        run = function()
-            local file = io.open("C:/1.txt" ,"r");
-            for line in file:lines() do
-                local num,key = line:match("(.+)、(.+)")
-                apiXmlSet("","SoulSoother",tostring(num),key)
-            end
-            file:close()
-            sendMessage("文件转换完毕")
-            return true
-        end,
-    },
+    }
     }
 end

@@ -336,14 +336,109 @@ return {
             return "语音性格设置"
         end
     },
-    {--斗图模式
+    {--关键字监听设置
         check = function()
-            return msg:find("test")==1
+            return msg:find("添加监听")==1 and qq == admin
         end,
         run = function()
-            sendMessage(tostring(string.len(msg)))
+            local keys = msg:gsub("添加监听","")
+            local key
+            if keys:find(",")~=nil then
+                key = keys:split(",")
+            else
+                key = keys:split("，")
+            end
+            for i=1,#key do
+                apiXmlSet("","Monitor",key[i],"1")
+            end
+            sendMessage("添加成功")
             return true
         end,
+        explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
+            return "添加监听 1,2,3,4"
+        end
+    },
+    {--关键字监听删除
+        check = function()
+            return msg:find("删除监听")==1 and qq == admin
+        end,
+        run = function()
+            local keys = msg:gsub("删除监听","")
+            local key
+            if keys:find(",")~=nil then
+                key = keys:split(",")
+            else
+                key = keys:split("，")
+            end
+            for i=1,#key do
+                apiXmlRemove("","Monitor",key[i],"1")
+            end
+            sendMessage("删除成功")
+            return true
+        end,
+        explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
+            return "删除监听 1,2,3,4"
+        end
+    },
+    {--!监听列表
+        check = function()
+            return msg:find("监听列表") == 1 and qq == admin
+        end,
+        run = function()
+            local dlist = apiXmlIdListGet("", "Monitor")
+            local num = dlist[0]
+            local list = dlist[1]
+            local n = ""
+            for i = 0, num do
+                if i==num then
+                    n = n .. list[i]
+                    break
+                end
+                n = n .. list[i] .. "\n"
+            end
+            sendMessage("监听关键字：\n" ..n ) 
+            return true
+        end,
+        explain = function()
+            return "监听列表"
+        end
+    },
+    {--监听转发QQ
+        check = function()
+            return msg:find("监听QQ") == 1 and qq == admin
+        end,
+        run = function()
+            local key = msg:match("(%d+)")
+            apiXmlSet("","Monitor","qq",key)
+            return true
+        end,
+        explain = function()
+            return "监听QQ"
+        end
+    },
+    {--开启监听
+        check = function()
+            return msg:find("开启监听") == 1 and qq == admin
+        end,
+        run = function()
+            apiXmlSet("","Monitor","Monitor","t")
+            return true
+        end,
+        explain = function()
+            return "开启监听"
+        end
+    },
+    {--关闭监听
+        check = function()
+            return msg:find("关闭监听") == 1 and qq == admin
+        end,
+        run = function()
+            apiXmlSet("","Monitor","Monitor","f")
+            return true
+        end,
+        explain = function()
+            return "关闭监听"
+        end
     },
 }
 end

@@ -2,7 +2,7 @@
 
 return function (time)
     if time == 19 then
-
+        local notice = "这么晚了不要熬夜了噢，快睡觉吧"
     elseif time ==20 then
         local notice = "这么晚了不要熬夜了噢，快睡觉吧"
     elseif time ==21 then

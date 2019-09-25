@@ -18,6 +18,26 @@ handled = true
 if admin==-1 then
     return true
 end
+
+if apiXmlGet("","Monitor","Monitor") == "t" then
+    local q = admin
+    local cq = apiXmlGet("","Monitor","qq")
+    if cq ~="" then
+        q=cq
+    end
+    
+    local dlist = apiXmlIdListGet("", "Monitor")
+    local num = dlist[0]
+    local list = dlist[1]
+    for i = 0, num do
+        if msg:find(list[i]) then
+            cqSendPrivateMessage(tonumber(q),list[i])
+            break
+        end
+    end
+    return true
+end
+
 local solve = require("app.messagegroupSolve")
 if solve(message,fromqq,fromgroup,id) then
     handled = true

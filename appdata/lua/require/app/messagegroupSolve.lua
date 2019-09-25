@@ -36,6 +36,8 @@ return function(inmsg, inqq, ingroup, inid)
     local apps = getapp(group,qq,msg,id)
     local getadminapp = require("app.menu.groupmanage")
     local adminapps = getadminapp(group,qq,msg)
+    local getgame = require("app.menu.game")
+    local gameapps = getgame(group,qq,msg)
 
     --匹配是否需要获取帮助
     if msg:lower():find("help") == 1 then
@@ -68,6 +70,20 @@ return function(inmsg, inqq, ingroup, inid)
         sendMessage("权限不足！")
         return true
     end
+    
+    --匹配是否需要游戏菜单
+    if msg:lower():find("game") == 1 then
+        local allApp = {}
+        for i = 1, #gameapps do
+            local appExplain = gameapps[i].explain and gameapps[i].explain()
+            if appExplain then
+                table.insert(allApp, appExplain)
+            end
+        end
+        sendMessage("蜀山捉妖记\n" ..
+        table.concat(allApp, "\n") .. "\n")
+        return true
+    end
 
 
     --遍历所有功能
@@ -85,7 +101,16 @@ return function(inmsg, inqq, ingroup, inid)
             end
         end
     end
+    for i = 1, #gameapps do
+        if gameapps[i].check and gameapps[i].check() then
+            if gameapps[i].run() then
+                return true
+            end
+        end
+    end
 
+
+    --通用回复
     if not msg:find("%[CQ:") then
         local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
         local replyCommon = apiXmlReplayGet("","common",msg)
