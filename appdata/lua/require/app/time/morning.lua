@@ -4,7 +4,7 @@ return function (time)
     --早上8点
     if time== 8 then
         --初始群列表
-        local t = cqGetMemberList(tonumber(key))
+        local t = apiXmlIdListGet("", "grouplist")
         local nums = t[0]
         local lists = t[1]
         for s = 0, nums do
