@@ -422,6 +422,7 @@ return {
         end,
         run = function()
             apiXmlSet("","Monitor","Monitor","t")
+            sendMessage("开启成功")
             return true
         end,
         explain = function()
@@ -434,6 +435,7 @@ return {
         end,
         run = function()
             apiXmlSet("","Monitor","Monitor","f")
+            sendMessage("关闭成功")
             return true
         end,
         explain = function()
