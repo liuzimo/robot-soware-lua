@@ -30,8 +30,8 @@ if apiXmlGet("","Monitor","Monitor") == "t" then
     local num = dlist[0]
     local list = dlist[1]
     for i = 0, num do
-        if msg:find(list[i]) then
-            cqSendPrivateMessage(tonumber(q),list[i])
+        if message:find(list[i]) then
+            cqSendPrivateMessage(tonumber(q),message)
             break
         end
     end
