@@ -35,7 +35,6 @@ if apiXmlGet("","Monitor","Monitor") == "t" then
             break
         end
     end
-    return true
 end
 
 local solve = require("app.messagegroupSolve")
