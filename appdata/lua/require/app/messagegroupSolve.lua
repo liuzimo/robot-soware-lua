@@ -27,7 +27,7 @@ return function(inmsg, inqq, ingroup, inid)
     if msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("说话") and admin==qq then
         apiXmlSet("","Shutup",tostring(group),"t")
     end
-    if apiXmlGet("","Shutup",tostring(group))~="t" then
+    if apiXmlGet("","Shutup",tostring(group))=="f" then
         return true
     end
 
@@ -115,7 +115,7 @@ return function(inmsg, inqq, ingroup, inid)
         local replyGroup = apiXmlReplayGet(tostring(group),"common",msg)
         local replyCommon = apiXmlReplayGet("","common",msg)
         local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
-        if apiXmlGet("","norecord",tostring(group))~="t" then
+        if apiXmlGet("","norecord",tostring(group))=="f" then
             replyrecord = ""
         end
 
