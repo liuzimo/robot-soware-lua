@@ -23,15 +23,15 @@ if operateqq+0~=0 then
     if is == "1" then     
 
         local success = apiXmlGet(tostring(fromgroup),"invitsuccess","success")
-        local countrel = apiXmlGet(tostring(fromgroup),"invitcount","count")
+        local countrel = apiXmlGet(tostring(fromgroup),"invitcountrel","countrel")
 
-        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."  成功邀请  " ..fromqq.."  进群  "..success)
+        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."成功邀请" ..fromqq.." 进群\n"..success)
         local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))
         if count == "" then
             count=0
         end
         apiXmlSet(tostring(fromgroup),"invite",tostring(operateqq),tostring(tonumber(count)+1))
-        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群"..countrel)
+        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群\n"..countrel)
         local assets = apiXmlGet(tostring(fromgroup), "assets",tostring(operateqq))
         if assets == "" then
             assets = 500

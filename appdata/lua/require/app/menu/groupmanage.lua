@@ -528,7 +528,7 @@ return {
         end,
         run = function()
             local key = msg:gsub("邀请统计回复","")
-            apiXmlSet(tostring(group),"invitcount","count",key)
+            apiXmlSet(tostring(group),"invitcountrel","countrel",key)
             sendMessage("设置成功")
             return true
         end,

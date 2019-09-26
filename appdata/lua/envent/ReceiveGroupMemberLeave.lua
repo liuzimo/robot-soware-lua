@@ -21,10 +21,10 @@ if is == "1" then
         local active = apiXmlGet(tostring(fromgroup),"groupoutrel","active")
         local passive = apiXmlGet(tostring(fromgroup),"groupoutrel","passive")
 
-        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将" ..fromqq.."踢出本群"..active)
+        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将" ..fromqq.."踢出本群\n"..active)
         return true
     end
-    cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群"..passive)
+    cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群\n"..passive)
 end
 --[[
 if fromgroup == 241464054 then
