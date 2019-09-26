@@ -544,10 +544,10 @@ return {
 
             if msg:find("退群通知消息主动")==1 then
                 local key = msg:gsub("退群通知消息主动","")
-                apiXmlSet(tostring(group),"groupoutrel","active ",key)
+                apiXmlSet(tostring(group),"groupoutrel","active",key)
             elseif msg:find("退群通知消息被动")==1 then
                 local key = msg:gsub("退群通知消息被动","")
-                apiXmlSet(tostring(group),"groupoutrel","passive ",key)
+                apiXmlSet(tostring(group),"groupoutrel","passive",key)
             end
             sendMessage("设置成功")
             return true
