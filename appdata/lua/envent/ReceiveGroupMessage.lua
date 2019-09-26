@@ -19,6 +19,7 @@ if admin==-1 then
     return true
 end
 
+--监听转发
 if apiXmlGet("","Monitor","Monitor") == "t" then
     local q = admin
     local cq = apiXmlGet("","Monitor","qq")

@@ -8,6 +8,35 @@ if admin == -1 then
     apiSetVar("adminqq", admin)
     admin = tonumber(admin) or -1
 end
+--百度AI开放平台token，从xml中读取
+--只会在启动第一次执行的时候读一次，后面都不读
+baidutoken = apiGetVar("baidutoken")
+if baidutoken == "" then
+    baidutoken = apiXmlGet("","settings", "baidutoken")
+    apiSetVar("baidutoken", baidutoken)
+end
+--百度AI开放平台APPKEY，从xml中读取
+--只会在启动第一次执行的时候读一次，后面都不读
+appkey = apiGetVar("appkey")
+if appkey == "" then
+    appkey = apiXmlGet("","settings", "appkey")
+    apiSetVar("appkey", appkey)
+end
+--百度AI开放平台SECRET_KEY，从xml中读取
+--只会在启动第一次执行的时候读一次，后面都不读
+secretkey = apiGetVar("secretkey")
+if secretkey == "" then
+    secretkey = apiXmlGet("","settings", "secretkey")
+    apiSetVar("secretkey", secretkey)
+end
+--天行数据平台KEY，从xml中读取
+--只会在启动第一次执行的时候读一次，后面都不读
+tianxinkey = apiGetVar("tianxinkey")
+if tianxinkey == "" then
+    tianxinkey = apiXmlGet("","settings", "tianxinkey")
+    apiSetVar("tianxinkey", tianxinkey)
+end
+
 
 --读取语音性格
 mettle = apiXmlGet("","settings", "mettle")
@@ -100,7 +129,7 @@ end
 --根据url显示图片
 function image(url)
     local file = getRandomString(25) .. ".luatemp"
-    apiHttpDownload(url, "data/image/" .. file, 5000)
+    apiHttpFileDownload(url, "data/image/" .. file, 5000)
     return "[CQ:image,file=" .. file .. "]"
 end
 
