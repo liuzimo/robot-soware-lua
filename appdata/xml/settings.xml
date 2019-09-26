@@ -30,13 +30,23 @@
     <ans></ans>
   </msginfo>
   <msginfo>
-    <msg>qqai_APPID</msg>
-    <!-- 腾讯ai开放平台APPID -->
+    <msg>appkey</msg>
+    <!-- 百度ai开放平台APPKEY -->
     <ans></ans>
   </msginfo>
   <msginfo>
-    <msg>qqai_APPKEY</msg>
-    <!-- 腾讯ai开放平台APPKEY -->
+    <msg>secretkey</msg>
+    <!-- 百度ai开放平台SECRET_KEY -->
+    <ans></ans>
+  </msginfo>
+  <msginfo>
+    <msg>baidutoken</msg>
+    <!-- 百度ai开放平台token -->
+    <ans></ans>
+  </msginfo>
+  <msginfo>
+    <msg>tianxinkey</msg>
+    <!-- 天行数据平台key -->
     <ans></ans>
   </msginfo>
 </Categories>
