@@ -18,19 +18,34 @@ handled = true
 
 -- local private1 = apiXmlGet(tostring(fromgroup),"newreplay","第一次私聊")~="" or "欢迎加入"
 if operateqq+0~=0 then
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."  成功邀请  " ..fromqq.."  进群  ".."   赠送100铜币 \n可通过'资产查询'查看资产，后续更新游戏功能")
-    local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))
-    if count == "" then
-        count=0
-    end
-    apiXmlSet(tostring(fromgroup),"invite",tostring(operateqq),tostring(tonumber(count)+1))
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群")
-    local assets = apiXmlGet(tostring(fromgroup), "assets",tostring(operateqq))
-    if assets == "" then
-        assets = 500
-    end
-    apiXmlSet(tostring(fromgroup),"assets",tostring(operateqq),tostring(tonumber(assets)+100))
+    --是否开启邀请统计
+    local is= apiXmlGet(tostring(fromgroup),"invitcount","is")
+    if is == "1" then     
 
+        local success = apiXmlGet(tostring(fromgroup),"invitsuccess","success")
+        local countrel = apiXmlGet(tostring(fromgroup),"invitcount","count")
+
+        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."  成功邀请  " ..fromqq.."  进群  "..success)
+        local count = apiXmlGet(tostring(fromgroup),"invite",tostring(operateqq))
+        if count == "" then
+            count=0
+        end
+        apiXmlSet(tostring(fromgroup),"invite",tostring(operateqq),tostring(tonumber(count)+1))
+        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."你总共邀请"..tostring(tonumber(count)+1).."人进群"..countrel)
+        local assets = apiXmlGet(tostring(fromgroup), "assets",tostring(operateqq))
+        if assets == "" then
+            assets = 500
+        end
+        apiXmlSet(tostring(fromgroup),"assets",tostring(operateqq),tostring(tonumber(assets)+100))
+    end
+
+    --自定义进群欢迎
+    local welcome = apiXmlGet(tostring(fromgroup),"welcome","welcome")
+    if welcome ~= "" then
+        cqSendGroupMessage(fromgroup,cqCode_At(qq)..welcome)
+    end
+
+    --初始化资产
     local assetsinitial = require("app.assets.initial")
     if assetsinitial(fromgroup,fromqq) then
         handled = true

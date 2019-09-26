@@ -1,4 +1,4 @@
---嘤嘤怪
+--大大怪
 
 return function ()
     local characterData = apiXmlGet("", "monster", "yyg")

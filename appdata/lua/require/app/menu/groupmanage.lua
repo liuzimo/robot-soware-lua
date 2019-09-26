@@ -476,28 +476,65 @@ return {
             return "可以发图片"
         end
     },
-    {--运行lua脚本
+    {--进群欢迎语
         check = function()
-            return msg:find("#lua") == 1
+            return msg:find("进群欢迎语") and admin==qq 
         end,
         run = function()
-            if qq == admin then
-                local result, info = pcall(function ()
-                    print = function (s)
-                        sendMessage(tostring(s))
-                    end
-                    load(cqCqCode_UnTrope(msg:sub(5)))()
-                end)
-                if result then
-                    sendMessage(cqCode_At(qq).."成功运行")
-                else
-                    sendMessage(cqCode_At(qq).."运行失败\r\n"..tostring(info))
-                end
-            else
-                sendMessage(cqCode_At(qq).."权限不足")
-            end
+            local key = msg:gsub("进群欢迎语","")
+            apiXmlSet(tostring(group),"welcome","welcome",key)
+            sendMessage("设置成功")
             return true
         end,
+        explain = function()
+            return "进群欢迎语  --只发送命令表示不欢迎"
+        end
+    },
+    {--控制邀请统计
+        check = function()
+            return msg:find("邀请统计") and admin==qq 
+        end,
+        run = function()
+            local key = msg:gsub("邀请统计","")
+            if key == "开启" then
+                apiXmlSet(tostring(group),"invitcount","is","1")
+            elseif key == "关闭" then
+                apiXmlSet(tostring(group),"invitcount","is","0")
+            end
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "邀请统计开启/关闭"
+        end
+    },
+    {--邀请成功回复设置
+        check = function()
+            return msg:find("邀请成功回复") and admin==qq 
+        end,
+        run = function()
+            local key = msg:gsub("邀请成功回复","")
+            apiXmlSet(tostring(group),"invitsuccess","success",key)
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "邀请统计回复  --只发送命令表示默认"
+        end
+    },
+    {--邀请统计回复设置
+        check = function()
+            return msg:find("邀请统计回复") and admin==qq 
+        end,
+        run = function()
+            local key = msg:gsub("邀请统计回复","")
+            apiXmlSet(tostring(group),"invitcount","count",key)
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "邀请统计回复  --只发送命令表示默认"
+        end
     },
 }
 end

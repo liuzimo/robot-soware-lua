@@ -7,15 +7,6 @@ function sendMessage(s)
     cqSendPrivateMessage(qq, s)
 end
 
---去除字符串开头的空格
-function kickSpace(s)
-    if type(s) ~= "string" then return end
-    while s:sub(1, 1) == " " do
-        s = s:sub(2)
-    end
-    return s
-end
-
 
 --对外提供的函数接口
 return function(inmsg, inqq, ingroup, inid)
