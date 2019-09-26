@@ -519,7 +519,7 @@ return {
             return true
         end,
         explain = function()
-            return "邀请统计回复  --只发送命令表示默认"
+            return "邀请成功回复  --只发送命令表示默认"
         end
     },
     {--邀请统计回复设置

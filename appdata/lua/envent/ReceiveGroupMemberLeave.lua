@@ -14,7 +14,7 @@ handled = true
 ]]
 
 --是否开启退群通知
-local is= apiXmlGet(tostring(group),"groupout","is")
+local is= apiXmlGet(tostring(fromgroup),"groupout","is")
 if is == "1" then   
     if operateqq+0~=fromqq then
 
