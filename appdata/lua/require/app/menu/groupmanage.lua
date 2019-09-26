@@ -490,6 +490,20 @@ return {
             return "进群欢迎语  --只发送命令表示不欢迎"
         end
     },
+    {--邀请统计回复设置
+        check = function()
+            return msg:find("邀请统计回复")==1 and admin==qq 
+        end,
+        run = function()
+            local key = msg:gsub("邀请统计回复","")
+            apiXmlSet(tostring(group),"invitcountrel","countrel",key)
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "邀请统计回复  --只发送命令表示默认"
+        end
+    },
     {--控制邀请统计
         check = function()
             return msg:find("邀请统计")==1 and admin==qq 
@@ -520,20 +534,6 @@ return {
         end,
         explain = function()
             return "邀请成功回复  --只发送命令表示默认"
-        end
-    },
-    {--邀请统计回复设置
-        check = function()
-            return msg:find("邀请统计回复")==1 and admin==qq 
-        end,
-        run = function()
-            local key = msg:gsub("邀请统计回复","")
-            apiXmlSet(tostring(group),"invitcountrel","countrel",key)
-            sendMessage("设置成功")
-            return true
-        end,
-        explain = function()
-            return "邀请统计回复  --只发送命令表示默认"
         end
     },
     {--退群通知消息设置
