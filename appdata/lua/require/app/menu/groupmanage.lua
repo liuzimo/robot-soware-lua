@@ -536,5 +536,43 @@ return {
             return "邀请统计回复  --只发送命令表示默认"
         end
     },
+    {--退群通知控制
+        check = function()
+            return msg:find("退群通知") and admin==qq 
+        end,
+        run = function()
+            local key = msg:gsub("退群通知","")
+            if key == "开启" then
+                apiXmlSet(tostring(group),"groupout","is","1")
+            elseif key == "关闭" then
+                apiXmlSet(tostring(group),"groupout","is","0")
+            end
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "退群通知开启/关闭"
+        end
+    },
+    {--退群通知消息设置
+        check = function()
+            return msg:find("退群通知消息") and admin==qq 
+        end,
+        run = function()
+
+            if msg:find("退群通知消息主动")==1 then
+                local key = msg:gsub("退群通知消息主动","")
+                apiXmlSet(tostring(group),"groupoutrel","active ",key)
+            elseif msg:find("退群通知消息被动")==1 then
+                local key = msg:gsub("退群通知消息被动","")
+                apiXmlSet(tostring(group),"groupoutrel","passive ",key)
+            end
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "退群通知消息主动/被动  --只发送命令表示默认"
+        end
+    },
 }
 end

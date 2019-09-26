@@ -42,7 +42,7 @@ if operateqq+0~=0 then
     --自定义进群欢迎
     local welcome = apiXmlGet(tostring(fromgroup),"welcome","welcome")
     if welcome ~= "" then
-        cqSendGroupMessage(fromgroup,cqCode_At(qq)..welcome)
+        cqSendGroupMessage(fromgroup,cqCode_At(fromqq)..welcome)
     end
 
     --初始化资产

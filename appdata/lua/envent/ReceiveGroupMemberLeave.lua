@@ -13,11 +13,19 @@ handled = true
 详细请参考readme
 ]]
 
-if operateqq+0~=fromqq then
-    cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将" ..fromqq.."踢出本群")
-    return true
+--是否开启退群通知
+local is= apiXmlGet(tostring(group),"groupout","is")
+if is == "1" then   
+    if operateqq+0~=fromqq then
+
+        local active = apiXmlGet(tostring(fromgroup),"groupoutrel","active")
+        local passive = apiXmlGet(tostring(fromgroup),"groupoutrel","passive")
+
+        cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将" ..fromqq.."踢出本群"..active)
+        return true
+    end
+    cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群"..passive)
 end
-cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群")
 --[[
 if fromgroup == 241464054 then
     local player = apiXmlGet("bindQq",tostring(fromqq))
