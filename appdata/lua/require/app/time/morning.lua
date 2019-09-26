@@ -1,7 +1,7 @@
 --早上
 return function (time)
 
-    --早上8点
+    --早上9点
     if time== 9 then
         --初始群列表
         local t = apiXmlIdListGet("", "grouplist")

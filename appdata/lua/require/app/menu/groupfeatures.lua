@@ -10,7 +10,7 @@ return {
         end,
         run = function()
             if cqRepealMessage(id) == -42 then
-                sendMessage("权限不足,请管理员手动撤回")
+                sendMessage("发现疑似广告，权限不足,请管理员手动撤回")
                 return true
             end
             sendMessage("发现疑似广告已撤回,违规账号："..qq)
