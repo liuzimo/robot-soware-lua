@@ -478,7 +478,7 @@ return {
     },
     {--进群欢迎语
         check = function()
-            return msg:find("进群欢迎语") and admin==qq 
+            return msg:find("进群欢迎语")==1 and admin==qq 
         end,
         run = function()
             local key = msg:gsub("进群欢迎语","")
@@ -492,7 +492,7 @@ return {
     },
     {--控制邀请统计
         check = function()
-            return msg:find("邀请统计") and admin==qq 
+            return msg:find("邀请统计")==1 and admin==qq 
         end,
         run = function()
             local key = msg:gsub("邀请统计","")
@@ -510,7 +510,7 @@ return {
     },
     {--邀请成功回复设置
         check = function()
-            return msg:find("邀请成功回复") and admin==qq 
+            return msg:find("邀请成功回复")==1 and admin==qq 
         end,
         run = function()
             local key = msg:gsub("邀请成功回复","")
@@ -524,7 +524,7 @@ return {
     },
     {--邀请统计回复设置
         check = function()
-            return msg:find("邀请统计回复") and admin==qq 
+            return msg:find("邀请统计回复")==1 and admin==qq 
         end,
         run = function()
             local key = msg:gsub("邀请统计回复","")
@@ -536,27 +536,9 @@ return {
             return "邀请统计回复  --只发送命令表示默认"
         end
     },
-    {--退群通知控制
-        check = function()
-            return msg:find("退群通知") and admin==qq 
-        end,
-        run = function()
-            local key = msg:gsub("退群通知","")
-            if key == "开启" then
-                apiXmlSet(tostring(group),"groupout","is","1")
-            elseif key == "关闭" then
-                apiXmlSet(tostring(group),"groupout","is","0")
-            end
-            sendMessage("设置成功")
-            return true
-        end,
-        explain = function()
-            return "退群通知开启/关闭"
-        end
-    },
     {--退群通知消息设置
         check = function()
-            return msg:find("退群通知消息") and admin==qq 
+            return msg:find("退群通知消息")==1 and admin==qq 
         end,
         run = function()
 
@@ -572,6 +554,24 @@ return {
         end,
         explain = function()
             return "退群通知消息主动/被动  --只发送命令表示默认"
+        end
+    },
+    {--退群通知控制
+        check = function()
+            return msg:find("退群通知")==1 and admin==qq 
+        end,
+        run = function()
+            local key = msg:gsub("退群通知","")
+            if key == "开启" then
+                apiXmlSet(tostring(group),"groupout","is","1")
+            elseif key == "关闭" then
+                apiXmlSet(tostring(group),"groupout","is","0")
+            end
+            sendMessage("设置成功")
+            return true
+        end,
+        explain = function()
+            return "退群通知开启/关闭"
         end
     },
 }
