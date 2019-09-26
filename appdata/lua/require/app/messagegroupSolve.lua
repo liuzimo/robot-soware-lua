@@ -80,9 +80,14 @@ return function(inmsg, inqq, ingroup, inid)
     --遍历所有功能
     for i = 1, #adminapps do
         if adminapps[i].check and adminapps[i].check() then
-            if adminapps[i].run() then
-                return true
+            if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
+                if adminapps[i].run() then
+                    return true
+                end
+            else
+                sendMessage("权限不足！你不是主人，不是超管，也不是群管，你就是个凡人。")
             end
+            return true
         end
     end
     for i = 1, #apps do

@@ -8,21 +8,17 @@ return {
             return msg:find("add ") == 1
         end,
         run = function()--匹配后进行运行的函数
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("add ", "")
-                local keyWord, answer = msg:match("(.+):(.+)")
-                keyWord = kickSpace(keyWord)
-                answer = kickSpace(answer)
-                if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
-                    sendMessage("格式 add 123:123") return true
-                end
-                apiXmlInsert("", "common", keyWord, answer)
-                sendMessage("添加完成！\n" ..
-                "词条：" .. keyWord .. "\n" ..
-                "回答：" .. answer)
-            else
-                sendMessage("权限不足！")
+            msg = msg:gsub("add ", "")
+            local keyWord, answer = msg:match("(.+):(.+)")
+            keyWord = kickSpace(keyWord)
+            answer = kickSpace(answer)
+            if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
+                sendMessage("格式 add 123:123") return true
             end
+            apiXmlInsert("", "common", keyWord, answer)
+            sendMessage("添加完成！\n" ..
+            "词条：" .. keyWord .. "\n" ..
+            "回答：" .. answer)
             return true
         end,
         explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
@@ -34,21 +30,17 @@ return {
             return msg:find("del ") == 1
         end,
         run = function()
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("del ", "")
-                local keyWord, answer = msg:match("(.+):(.+)")
-                keyWord = kickSpace(keyWord)
-                answer = kickSpace(answer)
-                if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
-                    sendMessage("格式 del 123:123") return true
-                end
-                apiXmlRemove("", "common", keyWord, answer)
-                sendMessage("删除完成！\n" ..
-                "词条：" .. keyWord .. "\n" ..
-                "回答：" .. answer)
-            else
-                sendMessage("权限不足！")
+            msg = msg:gsub("del ", "")
+            local keyWord, answer = msg:match("(.+):(.+)")
+            keyWord = kickSpace(keyWord)
+            answer = kickSpace(answer)
+            if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
+                sendMessage("格式 del 123:123") return true
             end
+            apiXmlRemove("", "common", keyWord, answer)
+            sendMessage("删除完成！\n" ..
+            "词条：" .. keyWord .. "\n" ..
+            "回答：" .. answer)
             return true
         end,
         explain = function()
@@ -60,15 +52,11 @@ return {
             return msg:find("delall ") == 1
         end,
         run = function()
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                keyWord = msg:gsub("delall ", "")
-                keyWord = kickSpace(keyWord)
-                apiXmlDelete("", "common", keyWord)
-                sendMessage("删除完成！\n" ..
-                "词条：" .. keyWord)
-            else
-                sendMessage("权限不足！")
-            end
+            keyWord = msg:gsub("delall ", "")
+            keyWord = kickSpace(keyWord)
+            apiXmlDelete("", "common", keyWord)
+            sendMessage("删除完成！\n" ..
+            "词条：" .. keyWord)
             return true
         end,
         explain = function()
@@ -94,32 +82,25 @@ return {
             return msg:find("addgroupadmin ") == 1
         end,
         run = function()
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("addgroupadmin ", "")
-                local ingroup, inqq = msg:match("(.+):(.+)")
-                ingroup = kickSpace(ingroup)
-                inqq = kickSpace(inqq)
-                if ingroup:len() == 0 and inqq:len() == 0 and tonumber(ingroup) == nil and tonumber(inqq) == nil then
-                    sendMessage("格式 addgroupadmin 群号:qq") return true
-                end
-                local dlist = apiXmlIdListGet("", "grouplist")
-                local num = dlist[0]
-                local list = dlist[1]
-                for i = 0, num do
-                    if ingroup == list[i] then
-                        apiXmlSet(ingroup, "adminList", inqq, "admin")
-                        sendMessage("群:" .. ingroup .. "\n添加管理员:" .. inqq)
-                        cqSendGroupMessage(tonumber(ingroup), "添加本群机器管理员:" .. inqq)
-                        return true
-                    end
-                end
-                sendMessage("Q群不存在")
-                return true
-
-            else
-                sendMessage("权限不足！")
+            msg = msg:gsub("addgroupadmin ", "")
+            local ingroup, inqq = msg:match("(.+):(.+)")
+            ingroup = kickSpace(ingroup)
+            inqq = kickSpace(inqq)
+            if ingroup:len() == 0 and inqq:len() == 0 and tonumber(ingroup) == nil and tonumber(inqq) == nil then
+                sendMessage("格式 addgroupadmin 群号:qq") return true
             end
-
+            local dlist = apiXmlIdListGet("", "grouplist")
+            local num = dlist[0]
+            local list = dlist[1]
+            for i = 0, num do
+                if ingroup == list[i] then
+                    apiXmlSet(ingroup, "adminList", inqq, "admin")
+                    sendMessage("群:" .. ingroup .. "\n添加管理员:" .. inqq)
+                    cqSendGroupMessage(tonumber(ingroup), "添加本群机器管理员:" .. inqq)
+                    return true
+                end
+            end
+            sendMessage("Q群不存在")
             return true
         end,
         explain = function()
@@ -131,31 +112,25 @@ return {
             return msg:find("delgroupadmin ") == 1
         end,
         run = function()
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("delgroupadmin ", "")
-                local ingroup, inqq = msg:match("(.+):(.+)")
-                ingroup = kickSpace(ingroup)
-                inqq = kickSpace(inqq)
-                if ingroup:len() == 0 and inqq:len() == 0 and tonumber(ingroup) == nil and tonumber(inqq) == nil then
-                    sendMessage("格式 delgroupadmin 群号:qq") return true
-                end
-                local dlist = apiXmlIdListGet("", "grouplist")
-                local num = dlist[0]
-                local list = dlist[1]
-                for i = 0, num do
-                    if ingroup == list[i] then
-                        apiXmlDelete(ingroup, "adminList", inqq)
-                        sendMessage("群:" .. ingroup .. "\n删除管理员:" .. inqq)
-                        cqSendGroupMessage(tonumber(ingroup), "删除本群机器管理员:" .. inqq)
-                        return true
-                    end
-                end
-                sendMessage("Q群不存在")
-                return true
-            else
-                sendMessage("权限不足！")
+            msg = msg:gsub("delgroupadmin ", "")
+            local ingroup, inqq = msg:match("(.+):(.+)")
+            ingroup = kickSpace(ingroup)
+            inqq = kickSpace(inqq)
+            if ingroup:len() == 0 and inqq:len() == 0 and tonumber(ingroup) == nil and tonumber(inqq) == nil then
+                sendMessage("格式 delgroupadmin 群号:qq") return true
             end
-
+            local dlist = apiXmlIdListGet("", "grouplist")
+            local num = dlist[0]
+            local list = dlist[1]
+            for i = 0, num do
+                if ingroup == list[i] then
+                    apiXmlDelete(ingroup, "adminList", inqq)
+                    sendMessage("群:" .. ingroup .. "\n删除管理员:" .. inqq)
+                    cqSendGroupMessage(tonumber(ingroup), "删除本群机器管理员:" .. inqq)
+                    return true
+                end
+            end
+            sendMessage("Q群不存在")
             return true
         end,
         explain = function()
@@ -164,8 +139,7 @@ return {
     },
     {--!addadmin
         check = function()
-            return msg:find("addadmin ") == 1 and
-            qq == admin
+            return msg:find("addadmin ") == 1
         end,
         run = function()
             local keyWord = msg:match("(%d+)")
@@ -179,8 +153,7 @@ return {
     },
     {--!deladmin
         check = function()
-            return msg:find("deladmin ") == 1 and
-            qq == admin
+            return msg:find("deladmin ") == 1
         end,
         run = function()
             local keyWord = msg:match("(%d+)")
@@ -194,8 +167,7 @@ return {
     },
     {--初始化群列表
         check = function()
-            return msg:find("初始化群列表") == 1 and
-            qq == admin
+            return msg:find("初始化群列表") == 1
         end,
         run = function()
 
@@ -221,8 +193,7 @@ return {
     },
     {--获取群列表
         check = function()
-            return msg:find("群列表") == 1 and
-            qq == admin
+            return msg:find("群列表") == 1
         end,
         run = function()
             local dlist = apiXmlIdListGet("", "grouplist")
@@ -245,8 +216,7 @@ return {
     },
     {--初始化群成员
         check = function()
-            return msg:find("初始化群 ") == 1 and
-            qq == admin
+            return msg:find("初始化群 ") == 1
         end,
         run = function()
             local key = msg:match("(%d+)")
@@ -266,8 +236,7 @@ return {
     },
     {--群发
         check = function()
-            return msg:find("群发 ") == 1 and
-            qq == admin
+            return msg:find("群发 ") == 1
         end,
         run = function()
             keyWord = msg:gsub("群发 ", "")
@@ -338,7 +307,7 @@ return {
     },
     {--关键字监听设置
         check = function()
-            return msg:find("添加监听")==1 and qq == admin
+            return msg:find("添加监听")==1
         end,
         run = function()
             local keys = msg:gsub("添加监听","")
@@ -360,7 +329,7 @@ return {
     },
     {--关键字监听删除
         check = function()
-            return msg:find("删除监听")==1 and qq == admin
+            return msg:find("删除监听")==1
         end,
         run = function()
             local keys = msg:gsub("删除监听","")
@@ -382,7 +351,7 @@ return {
     },
     {--!监听列表
         check = function()
-            return msg:find("监听列表") == 1 and qq == admin
+            return msg:find("监听列表") == 1
         end,
         run = function()
             local dlist = apiXmlIdListGet("", "Monitor")
@@ -405,7 +374,7 @@ return {
     },
     {--监听转发QQ
         check = function()
-            return msg:find("监听QQ") == 1 and qq == admin
+            return msg:find("监听QQ") == 1
         end,
         run = function()
             local key = msg:match("(%d+)")
@@ -418,7 +387,7 @@ return {
     },
     {--开启监听
         check = function()
-            return msg:find("开启监听") == 1 and qq == admin
+            return msg:find("开启监听") == 1
         end,
         run = function()
             apiXmlSet("","Monitor","Monitor","t")
@@ -431,7 +400,7 @@ return {
     },
     {--关闭监听
         check = function()
-            return msg:find("关闭监听") == 1 and qq == admin
+            return msg:find("关闭监听") == 1
         end,
         run = function()
             apiXmlSet("","Monitor","Monitor","f")

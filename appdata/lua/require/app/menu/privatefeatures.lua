@@ -244,35 +244,6 @@ return {
             return "二维码解码"
         end
     },
-    {--通用回复
-        check = function()
-            return admin~=-1 and not msg:find("%[CQ:")
-        end,
-        run = function()
-            -- local replyCommon = apiXmlReplayGet("", "common", msg)
-            -- sendMessage(replyCommon)
-            local replyCommon = apiXmlReplayGet("","common",msg)
-            local replyrecord = apiXmlReplayGet("record\\"..apiGetVar("mettle"),"replayrecord",msg)
-            if replyrecord == "" and replyCommon ~= "" then
-                sendMessage(replyCommon)
-                return true
-            elseif replyrecord ~= "" and replyCommon == "" then
-                sendMessage(cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
-                return true
-            elseif replyrecord ~= "" and replyCommon ~= "" then
-                sendMessage(math.random(1,10)>=5 and replyCommon or cqCqCode_Record(apiGetVar("mettle").."\\"..replyrecord))
-                return true
-            end
-            if string.len(msg) < 45 then
-                apiHttpImageDownload("https://www.doutula.com/search?keyword="..msg:gsub("\r\n",""),"image".."\\"..msg:gsub("\r\n",""))
-                if cqSendPrivateMessage(qq,cqCqCode_Image(msg:gsub("\r\n","").."\\"..math.random(1,10)..".jpg")) == -11 then
-                    sendMessage(cqCqCode_Image(msg:gsub("\r\n","").."\\1.jpg") )
-                end
-                return true
-            end
-            return true
-        end
-    },
     {--开机密码
         check = function()
             return msg == "我爱你" and admin==-1 

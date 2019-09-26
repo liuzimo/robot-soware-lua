@@ -8,21 +8,17 @@ return {
             return msg:find("add ") == 1
         end,
         run = function()--匹配后进行运行的函数
-            if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("add ", "")
-                local keyWord, answer = msg:match("(.+):(.+)")
-                keyWord = kickSpace(keyWord)
-                answer = kickSpace(answer)
-                if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
-                    sendMessage("格式 add 123:123") return true
-                end
-                apiXmlInsert(tostring(group), "common", keyWord, answer)
-                sendMessage("添加完成！\n" ..
-                "词条：" .. keyWord .. "\n" ..
-                "回答：" .. answer)
-            else
-                sendMessage("权限不足！")
+            msg = msg:gsub("add ", "")
+            local keyWord, answer = msg:match("(.+):(.+)")
+            keyWord = kickSpace(keyWord)
+            answer = kickSpace(answer)
+            if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
+                sendMessage("格式 add 123:123") return true
             end
+            apiXmlInsert(tostring(group), "common", keyWord, answer)
+            sendMessage("添加完成！\n" ..
+            "词条：" .. keyWord .. "\n" ..
+            "回答：" .. answer)
             return true
         end,
         explain = function()--功能解释，返回为字符串，若无需显示解释，返回nil即可
@@ -34,15 +30,11 @@ return {
             return msg:find("delall ") == 1
         end,
         run = function()
-            if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                keyWord = msg:gsub("delall ", "")
-                keyWord = kickSpace(keyWord)
-                apiXmlDelete(tostring(group), "common", keyWord)
-                sendMessage("删除完成！\n" ..
-                "词条：" .. keyWord)
-            else
-                sendMessage("权限不足！")
-            end
+            keyWord = msg:gsub("delall ", "")
+            keyWord = kickSpace(keyWord)
+            apiXmlDelete(tostring(group), "common", keyWord)
+            sendMessage("删除完成！\n" ..
+            "词条：" .. keyWord)
             return true
         end,
         explain = function()
@@ -54,21 +46,17 @@ return {
             return msg:find("del ") == 1
         end,
         run = function()
-            if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                msg = msg:gsub("del ", "")
-                local keyWord, answer = msg:match("(.+):(.+)")
-                keyWord = kickSpace(keyWord)
-                answer = kickSpace(answer)
-                if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
-                    sendMessage("格式 del 123:123") return true
-                end
-                apiXmlRemove(tostring(group), "common", keyWord, answer)
-                sendMessage("删除完成！\n" ..
-                "词条：" .. keyWord .. "\n" ..
-                "回答：" .. answer)
-            else
-                sendMessage("权限不足！")
+            msg = msg:gsub("del ", "")
+            local keyWord, answer = msg:match("(.+):(.+)")
+            keyWord = kickSpace(keyWord)
+            answer = kickSpace(answer)
+            if not keyWord or not answer or keyWord:len() == 0 or answer:len() == 0 then
+                sendMessage("格式 del 123:123") return true
             end
+            apiXmlRemove(tostring(group), "common", keyWord, answer)
+            sendMessage("删除完成！\n" ..
+            "词条：" .. keyWord .. "\n" ..
+            "回答：" .. answer)
             return true
         end,
         explain = function()
@@ -194,14 +182,10 @@ return {
             return msg:find("查看资料 ") == 1
         end,
         run = function()
-            if (apiXmlGet(tostring(group), "adminList", tostring(qq)) == "admin" or apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                local dqq = msg:match("(%d+)")
-                local t = cqGetMemberInfo(tonumber(group), tonumber(dqq), true)
-                local info = require("app.groupmemberinfo")
-                sendMessage(info(t))
-            else
-                sendMessage("权限不足！")
-            end
+            local dqq = msg:match("(%d+)")
+            local t = cqGetMemberInfo(tonumber(group), tonumber(dqq), true)
+            local info = require("app.groupmemberinfo")
+            sendMessage(info(t))
             return true
         end,
         explain = function()
@@ -213,18 +197,14 @@ return {
             return msg:find("查看全部资料") == 1
         end,
         run = function()
-            if (apiXmlGet("", "adminList", tostring(qq)) == "admin") or qq == admin then
-                local dqq = msg:match("(%d+)")
-                local tlist = cqGetMemberList(tonumber(group))
-                local num = tlist[0]
-                local list = tlist[1]
+            local dqq = msg:match("(%d+)")
+            local tlist = cqGetMemberList(tonumber(group))
+            local num = tlist[0]
+            local list = tlist[1]
 
-                for i = 0, num do
-                    local info = require("app.groupmemberinfo")
-                    sendMessage(info(list[i]))
-                end
-            else
-                sendMessage("权限不足！")
+            for i = 0, num do
+                local info = require("app.groupmemberinfo")
+                sendMessage(info(list[i]))
             end
             return true
         end,
@@ -234,8 +214,7 @@ return {
     },
     {--禁言
         check = function()
-            return msg:find("禁言 ") == 1 and
-            qq == admin
+            return msg:find("禁言 ") == 1
         end,
         run = function()
             local v = tonumber(msg:match("(%d+):"))
@@ -251,8 +230,7 @@ return {
     },
     {--解除禁言
         check = function()
-            return msg:find("解除禁言") == 1 and
-            qq == admin
+            return msg:find("解除禁言") == 1
         end,
         run = function()
             local q = tonumber(msg:match("(%d+)"))
@@ -265,8 +243,7 @@ return {
     },
     {--全员禁言
         check = function()
-            return msg:find("全员禁言") == 1 and
-            qq == admin
+            return msg:find("全员禁言") == 1
         end,
         run = function()
             cqSetGroupWholeBanSpeak(group, true)
@@ -278,8 +255,7 @@ return {
     },
     {--解除全员禁言
         check = function()
-            return msg:find("解除全员禁言") == 1 and
-            qq == admin
+            return msg:find("解除全员禁言") == 1
         end,
         run = function()
             cqSetGroupWholeBanSpeak(group, false)
@@ -291,8 +267,7 @@ return {
     },
     {--踢人
         check = function()
-            return msg:find("踢人") == 1 and
-            qq == admin
+            return msg:find("踢人") == 1
         end,
         run = function()
             local q = tonumber(msg:match("(%d+)"))
@@ -413,7 +388,7 @@ return {
     },
     {--该群不说话
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("闭嘴") and admin==qq or msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("别说话") and admin==qq 
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("闭嘴")or msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("别说话")
         end,
         run = function()
             apiXmlSet("","Shutup",tostring(group),"f")
@@ -426,7 +401,7 @@ return {
     },
     {--不发语音
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发语音") and admin==qq 
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发语音")
         end,
         run = function()
             apiXmlSet("","norecord",tostring(group),"f")
@@ -439,7 +414,7 @@ return {
     },
     {--不发图片
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发图") and admin==qq 
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("不要发图")
         end,
         run = function()
             apiXmlSet("","noimage",tostring(group),"f")
@@ -452,7 +427,7 @@ return {
     },
     {--发语音
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("可以发语音") and admin==qq 
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("可以发语音")
         end,
         run = function()
             apiXmlSet("","norecord",tostring(group),"t")
@@ -465,7 +440,7 @@ return {
     },
     {--发图片
         check = function()
-            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("可以发图") and admin==qq 
+            return msg:find("%[CQ:at,qq=" .. cqGetLoginQQ() .. "%]") and msg:find("可以发图")
         end,
         run = function()
             apiXmlSet("","noimage",tostring(group),"t")
@@ -478,7 +453,7 @@ return {
     },
     {--进群欢迎语
         check = function()
-            return msg:find("进群欢迎语")==1 and admin==qq 
+            return msg:find("进群欢迎语")==1
         end,
         run = function()
             local key = msg:gsub("进群欢迎语","")
@@ -492,7 +467,7 @@ return {
     },
     {--邀请统计回复设置
         check = function()
-            return msg:find("邀请统计回复")==1 and admin==qq 
+            return msg:find("邀请统计回复")==1
         end,
         run = function()
             local key = msg:gsub("邀请统计回复","")
@@ -506,7 +481,7 @@ return {
     },
     {--控制邀请统计
         check = function()
-            return msg:find("邀请统计")==1 and admin==qq 
+            return msg:find("邀请统计")==1
         end,
         run = function()
             local key = msg:gsub("邀请统计","")
@@ -524,7 +499,7 @@ return {
     },
     {--邀请成功回复设置
         check = function()
-            return msg:find("邀请成功回复")==1 and admin==qq 
+            return msg:find("邀请成功回复")==1
         end,
         run = function()
             local key = msg:gsub("邀请成功回复","")
@@ -538,7 +513,7 @@ return {
     },
     {--退群通知消息设置
         check = function()
-            return msg:find("退群通知消息")==1 and admin==qq 
+            return msg:find("退群通知消息")==1
         end,
         run = function()
 
@@ -558,7 +533,7 @@ return {
     },
     {--退群通知控制
         check = function()
-            return msg:find("退群通知")==1 and admin==qq 
+            return msg:find("退群通知")==1
         end,
         run = function()
             local key = msg:gsub("退群通知","")
