@@ -38,7 +38,27 @@ if apiXmlGet("","Monitor","Monitor") == "t" then
     end
 end
 
-local solve = require("app.messagegroupSolve")
-if solve(message,fromqq,fromgroup,id) then
-    handled = true
+--记录禁言
+if fromqq==1000000 then
+    if message:find("开启了全员禁言") then
+        apiXmlSet("","groupforbidden",tostring(fromgroup),"f")
+    elseif message:find("关闭了全员禁言") then
+        apiXmlSet("","groupforbidden",tostring(fromgroup),"t")
+    elseif tonumber(message:match("(%d+)"))==cqGetLoginQQ() and message:find("被管理员禁言") then
+        apiXmlSet("","forbidden",tostring(fromgroup),"f")
+    elseif tonumber(message:match("(%d+)"))==cqGetLoginQQ() and message:find("解除禁言") then
+        apiXmlSet("","forbidden",tostring(fromgroup),"t")
+    end
+end
+
+--判断是否被禁言
+local groupforbidden = apiXmlGet("","groupforbidden",tostring(fromgroup))
+local forbidden = apiXmlGet("","forbidden",tostring(fromgroup))
+if groupforbidden ~= "f" then
+    if forbidden ~="f" then
+        local solve = require("app.messagegroupSolve")
+        if solve(message,fromqq,fromgroup,id) then
+            handled = true
+        end
+    end
 end
