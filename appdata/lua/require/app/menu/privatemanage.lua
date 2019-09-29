@@ -411,5 +411,18 @@ return {
             return "关闭监听"
         end
     },
+    {--开启定时任务
+        check = function()
+            return msg:find("开启定时任务") == 1
+        end,
+        run = function()
+            apiTimerStart()
+            sendMessage("开启成功")
+            return true
+        end,
+        explain = function()
+            return "开启定时任务"
+        end
+    },
 }
 end
