@@ -58,7 +58,7 @@ return function(msg, qq, group)
         return cqCode_At(qq) .. "当前禁言卡数量：" .. tostring(cards)
 
         --禁言
-    elseif msg:find("禁言 ") then
+    elseif msg:find("禁言%[CQ:at,qq=") then
         if cards <= 0 then
             return cqCode_At(qq) .. "你只有" .. tostring(cards) .. "张禁言卡，无法操作"
         end
@@ -68,7 +68,7 @@ return function(msg, qq, group)
         cqSetGroupBanSpeak(group, v, banTime * 60)
         return cqCode_At(qq) .. "已将" .. tostring(v) .. "禁言" .. tostring(banTime) .. "分钟"
         --禁言解除
-    elseif msg:find("禁言解除 ") then
+    elseif msg:find("禁言解除%[CQ:at,qq=") then
         local v = tonumber(msg:match("(%d+)"))
         cqSetGroupBanSpeak(group, v, -1)
         return cqCode_At(qq) .. "已将" .. tostring(v) .. "解除禁言" 

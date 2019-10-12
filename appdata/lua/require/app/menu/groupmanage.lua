@@ -214,13 +214,15 @@ return {
     },
     {--禁言
         check = function()
-            return msg:find("禁言 ") == 1
+            return msg:find("禁言%[CQ:at,qq=") == 1 and  msg:find(" ")
         end,
         run = function()
-            local v = tonumber(msg:match("(%d+):"))
-            local t = tonumber(msg:match(":(%d+)"))
+            local v = tonumber(msg:match("(%d+)%]"))
+            local dmsg = msg:gsub("禁言%[CQ:at,qq="..v.."%]","")
+            local t = tonumber(dmsg:match("(%d+)"))
             if t then
                 cqSetGroupBanSpeak(group, v, t * 60)
+                sendMessage( cqCode_At(qq) .. "已将" .. tostring(v) .. "禁言" .. tostring(t) .. "分钟")
                 return true
             end
         end,
