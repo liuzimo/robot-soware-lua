@@ -174,15 +174,6 @@ cqGetMemberInfo = function(g, q, a)
     if not a then a = false end
     return oldcqGetMemberInfo(r, g, q, a)
 end
-
---split
-function string:split(sep) 
-    local sep, fields = sep or "\t",{} 
-    local pattern = string.format("([^%s]+)", sep) 
-    self:gsub(pattern, function(c) fields[#fields+1] = c end) 
-    return fields 
-end
-
     
 
 --去除字符串开头的空格

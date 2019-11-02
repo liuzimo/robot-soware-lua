@@ -24,6 +24,9 @@ if is == "1" then
         cqSendGroupMessage(fromgroup,cqCode_At(operateqq).."将" ..fromqq.."踢出本群\n"..active)
         return true
     end
+    if not passive then
+        passive = ""
+    end
     cqSendGroupMessage(fromgroup,tostring(fromqq).."主动离开了本群\n"..passive)
 end
 --[[

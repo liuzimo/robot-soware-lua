@@ -244,6 +244,37 @@ return {
             return "二维码解码"
         end
     },
+    {--网站登录
+        check = function()
+            return msg:find("网站登录")==1
+        end,
+        run = function()
+            --获取cookie
+            local cookie = apiGetVar("cookie")
+            if cookie =="" then
+                local headers = apiGetResponseHeaders("http://je.jonaheton.com/api_page/login?username=yijiefang&password=54007")
+                local d = jsonDecode(headers)
+                local session = d["Set-Cookie"]:split(";")[1]:split("=")[2]
+                cookie = "sessionid = "..session.."; username = yijiefang; id = 104314"
+                apiSetVar("cookie",cookie)
+            end 
+            --请求下载
+            -- sendMessage( apiGetResponseHeaders("http://je.jonaheton.com/api/get_download_button","addr=http://www.58pic.com/newpic/28619105.html&equal=true",cookie))
+            --请求用户下载验证
+            local keyStr="@f?qyuicns6.asd["
+            local user_info = apiHttpGet("http://je.jonaheton.com/api_page/get_user_information","id=104314",5000,cookie)
+            local t = jsonDecode(user_info)
+            local v = t["v"]
+            local vga = t["vga"]
+
+            --请求下载链接
+            --sendMessage(apiHttpPost("http://je.jonaheton.com/api_page/get_user_information","id=104314",5000,cookie))
+            return true
+        end,
+        explain = function()
+            return "二维码解码"
+        end
+    },
     {--开机密码
         check = function()
             return msg == "我爱你" and admin==-1 

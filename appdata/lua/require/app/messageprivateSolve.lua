@@ -17,7 +17,7 @@ return function(inmsg, inqq, ingroup, inid)
     local adminapps = getadminapp(qq,msg)
 
     --匹配是否需要获取帮助
-    if msg:lower():find("help") == 1 then
+    if msg:lower():find("help") == 1 or msg:lower():find("菜单") == 1 or msg:lower():find("帮助") == 1 then
         local allApp = {}
         for i = 1, #apps do
             local appExplain = apps[i].explain and apps[i].explain()
@@ -30,7 +30,7 @@ return function(inmsg, inqq, ingroup, inid)
         return true
     end
     --匹配是否需要获取管理
-    if msg:lower():find("manage") == 1 then
+    if msg:lower():find("manage") == 1 or msg:lower():find("管理") == 1 then
         local allApp = {}
         for i = 1, #adminapps do
             local appExplain = adminapps[i].explain and adminapps[i].explain()

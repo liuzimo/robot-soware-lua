@@ -262,7 +262,11 @@ return {
         end,
         run = function()
             local key = msg:match("(%d+)")
-            cqSetGroupExit(tonumber(key))
+            if key then
+                cqSetGroupExit(tonumber(key))
+                return true
+            end
+            sendMessage("请输入要退出的群号")
             return true
         end,
         explain = function()
