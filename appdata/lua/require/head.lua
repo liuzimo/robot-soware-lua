@@ -68,7 +68,7 @@ rootPath = rootPath:gsub("%x%x", function(c)
     return string.char(tonumber(c, 16))
 end)
 package.path = package.path ..
-";" .. rootPath .. "data/app/com.robot.soware/lua/require/?.lua"
+";" .. rootPath .. "data/app/"..apiGetAppName().."/lua/require/?.lua"
 
 --加载字符串工具包
 require("strings")
